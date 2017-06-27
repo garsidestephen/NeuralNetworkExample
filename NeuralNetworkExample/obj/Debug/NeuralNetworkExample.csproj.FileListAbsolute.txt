@@ -1,6 +1,0 @@
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\bin\Debug\NeuralNetworkExample.exe.config
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\bin\Debug\NeuralNetworkExample.exe
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\bin\Debug\NeuralNetworkExample.pdb
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\obj\Debug\NeuralNetworkExample.exe
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\obj\Debug\NeuralNetworkExample.pdb
-C:\Code\NeuralNetworkExample\NeuralNetworkExample\obj\Debug\NeuralNetworkExample.csprojResolveAssemblyReference.cache
