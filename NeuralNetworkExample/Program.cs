@@ -18,7 +18,7 @@ namespace NeuralNetworkExample
             {
                 for (int j = 0; j < inputs.Length; j++)
                 {
-                    //var currentAnswer = answers[i];
+                    var currentAnswer = answers[i];
                     //var weight = weights[i, j];
                     //var input = inputs[j];
 
