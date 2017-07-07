@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{63C8E328-5217-424E-87E0-6A686EF84F71}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{77B0282A-D4E2-4D21-BEE0-CC07FC1F9E17}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetworkExample</RootNamespace>
-    <AssemblyName>NeuralNetworkExample</AssemblyName>
+    <RootNamespace>NeuralNetworkExample.BL</RootNamespace>
+    <AssemblyName>NeuralNetworkExample.BL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,16 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Helpers\ArrayHelper.cs" />
+    <Compile Include="Implementation\NeuralNetworkService.cs" />
+    <Compile Include="INeuralNetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NeuralNetworkExample.BL\NeuralNetworkExample.BL.csproj">
-      <Project>{77b0282a-d4e2-4d21-bee0-cc07fc1f9e17}</Project>
-      <Name>NeuralNetworkExample.BL</Name>
+    <ProjectReference Include="..\NeuralNetworkExample.DAL\NeuralNetworkExample.DAL.csproj">
+      <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
+      <Name>NeuralNetworkExample.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\NeuralNetworkExample.Entities\NeuralNetworkExample.Entities.csproj">
       <Project>{8835c688-ab69-4e04-b421-a6339a4b5ece}</Project>
