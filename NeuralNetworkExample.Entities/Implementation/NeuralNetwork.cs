@@ -1,10 +1,14 @@
-﻿using NeuralNetworkExample.Entities.Enums;
+﻿using NeuralNetworkExample.Entities.Implementation;
+using NeuralNetworkExample.Entities.Enums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetworkExample.Entities.Implementation
 {
     /// <summary>
     /// Neural Network
+    /// Inputs should be between 0.01 to 0.99 or -1 to +1
+    /// Link weights should be small, avoid 0, perhaps 1 to -1
     /// </summary>
     public class NeuralNetwork : INeuralNetwork
     {
@@ -14,6 +18,7 @@ namespace NeuralNetworkExample.Entities.Implementation
         public NeuralNetwork()
         {
             ProcessingLayers = new List<ProcessingLayer>();
+            OutputLayer = new OutputLayer();
         }
 
         /// <summary>
@@ -40,5 +45,16 @@ namespace NeuralNetworkExample.Entities.Implementation
         /// Gets or sets Output Layer
         /// </summary>
         public OutputLayer OutputLayer { get; set; }
+
+        /// <summary>
+        /// Gets
+        /// </summary>
+        public bool IsTraining 
+        {
+            get
+            {
+                return OutputLayer.OutputNeurons.Any(x => x.ExpectedOutput > 0);
+            }        
+        }
     }
 }

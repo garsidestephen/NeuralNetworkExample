@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\NetworkOutput.cs" />
     <Compile Include="Enums\ActivationFunctionType.cs" />
     <Compile Include="Implementation\BaseLayer.cs" />
     <Compile Include="Implementation\ProcessingLayer.cs" />

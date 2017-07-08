@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationFunctions.cs" />
     <Compile Include="Helpers\ArrayHelper.cs" />
     <Compile Include="Implementation\NeuralNetworkService.cs" />
     <Compile Include="INeuralNetworkService.cs" />

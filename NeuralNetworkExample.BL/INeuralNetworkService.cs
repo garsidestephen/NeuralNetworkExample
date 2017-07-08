@@ -1,4 +1,7 @@
 ﻿using NeuralNetworkExample.Entities;
+using NeuralNetworkExample.Entities.DTO;
+using System;
+using System.Collections.Generic;
 
 namespace NeuralNetworkExample.BL
 {
@@ -12,20 +15,21 @@ namespace NeuralNetworkExample.BL
         INeuralNetwork Get(int id);
 
         /// <summary>
-        /// Create a Neural Network
+        /// Create a neural network
         /// </summary>
         /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
         /// <param name="numberOfProcessingLayers">Number Of Processing Layers</param>
-        /// <param name="orderedOutputLayerNeuronDescriptions">Ordered Output Layer Neuron Descriptions</param>
+        /// <param name="networkOutputs">Network Outputs</param>
         /// <param name="allInitialDelimitedWeights">Optional All Initial Delimited Weights</param>
         /// <returns>A Neural Network</returns>
-        INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, string[] orderedOutputLayerNeuronDescriptions, string allInitialDelimitedWeights = null);
+        INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, IList<NetworkOutput> networkOutputs, string allInitialDelimitedWeights = null);
 
         /// <summary>
         /// Process a Neural Network
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="inputs">Inputs</param>
-        void Process(INeuralNetwork neuralNetwork, double[] inputs);
+        /// <param name="activationFunction">Activation Function</param>
+        void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
     }
 }
