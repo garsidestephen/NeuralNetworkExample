@@ -2,6 +2,8 @@
 using NeuralNetworkExample.BL;
 using NeuralNetworkExample.BL.Implementation;
 using NeuralNetworkExample.Entities;
+using System.Collections.Generic;
+using NeuralNetworkExample.Entities.DTO;
 
 namespace NeuralNetworkExample
 {
@@ -30,8 +32,9 @@ namespace NeuralNetworkExample
             // ToDo: Inject via DI
             _neuralNetworkService = new NeuralNetworkService();
 
-            var neuralNetwork = _neuralNetworkService.Create(3, 2, new string[] { "Yes", "No", "Not Sure" });
-            _neuralNetworkService.Process(neuralNetwork, GetInitialInputs());
+            var neuralNetwork = _neuralNetworkService.Create(2, 2, GetNetworkOutputs(), GetInitialWeights());
+
+            _neuralNetworkService.Process(neuralNetwork, GetInitialInputs(), ActivationFunctions.Sigmoid);
 
             WriteNeuronOutputsToConsole(neuralNetwork);
 
@@ -50,7 +53,7 @@ namespace NeuralNetworkExample
                 {
                     var outputNeuron = neuralNetwork.OutputLayer.OutputNeurons[i];
 
-                    WriteToConsole(string.Format("{0} : {1}", outputNeuron.Description, outputNeuron.ActualOutput));
+                    WriteToConsole(string.Format("{0} : {1} : err {2}", outputNeuron.Description, outputNeuron.ActualOutput, outputNeuron.Error));
                 }
             }
         }
@@ -74,7 +77,30 @@ namespace NeuralNetworkExample
         private static double[] GetInitialInputs()
         {
             // ToDo: Get from DB
-            return new double[] { 0.9, 0.1, 0.8 };
+            return new double[] { 0.99, 0.01, };
+        }
+
+        /// <summary>
+        /// Gets Initial Weights
+        /// </summary>
+        /// <returns>Initial Weights</returns>
+        private static string GetInitialWeights()
+        {
+            return "0.7,0.5,0.2,0.3, 0.4,0.6,0.3,0.2";
+        }
+
+        /// <summary>
+        /// Get Network Outputs
+        /// </summary>
+        /// <returns>Network Output List</returns>
+        private static List<NetworkOutput> GetNetworkOutputs()
+        {
+            var networkOutputs = new List<NetworkOutput>();
+
+            networkOutputs.Add(new NetworkOutput() { Number = 1, Description = "On", ExpectedOutput = 0.99 });
+            networkOutputs.Add(new NetworkOutput() { Number = 2, Description = "Off", ExpectedOutput = 0.01 });
+
+            return networkOutputs;
         }
     }
 }

@@ -2,10 +2,10 @@
 using NeuralNetworkExample.DAL;
 using NeuralNetworkExample.DAL.Implementation;
 using NeuralNetworkExample.Entities;
+using NeuralNetworkExample.Entities.DTO;
 using NeuralNetworkExample.Entities.Implementation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NeuralNetworkExample.BL.Implementation
 {
@@ -14,11 +14,6 @@ namespace NeuralNetworkExample.BL.Implementation
     /// </summary>
     public class NeuralNetworkService : INeuralNetworkService
     {
-        /// <summary>
-        /// Sigmoid Constant
-        /// </summary>
-        private const double SigmoidConst = 2.71828;
-
         /// <summary>
         /// Private neural Network Repo
         /// </summary>
@@ -48,16 +43,16 @@ namespace NeuralNetworkExample.BL.Implementation
         /// </summary>
         /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
         /// <param name="numberOfProcessingLayers">Number Of Processing Layers</param>
-        /// <param name="orderedOutputLayerNeuronDescriptions">Ordered Output Layer Neuron Descriptions</param>
+        /// <param name="networkOutputs">Network Outputs</param>
         /// <param name="allInitialDelimitedWeights">Optional All Initial Delimited Weights</param>
         /// <returns>A Neural Network</returns>
-        public INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, string[] orderedOutputLayerNeuronDescriptions, string allInitialDelimitedWeights = null)
+        public INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, IList<NetworkOutput> networkOutputs, string allInitialDelimitedWeights = null)
         {
             var neuralNetwork = new NeuralNetwork();
 
             CreateProcessingLayers(neuralNetwork, numberOfInitialInputs, numberOfProcessingLayers, allInitialDelimitedWeights);
 
-            CreateOutputLayer(neuralNetwork, orderedOutputLayerNeuronDescriptions);
+            PopulateOutputLayer(neuralNetwork, networkOutputs);
 
             return neuralNetwork;
         }
@@ -67,14 +62,15 @@ namespace NeuralNetworkExample.BL.Implementation
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="inputs">Inputs</param>
-        public void Process(INeuralNetwork neuralNetwork, double[] inputs)
+        /// <param name="activationFunction">Activation Function</param>
+        public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction)
         {
             double[] outputs = null;
 
             // Push data through network
             for (int currentLayerNumber = 0; currentLayerNumber < neuralNetwork.ProcessingLayers.Count; currentLayerNumber++)
             {
-                outputs = CalculateNeuronOutputs(inputs, neuralNetwork.ProcessingLayers[currentLayerNumber].Weights, SigmoidActivationFunction);
+                outputs = CalculateNeuronOutputs(inputs, neuralNetwork.ProcessingLayers[currentLayerNumber].Weights, activationFunction);
 
                 inputs = outputs;
             }
@@ -155,17 +151,16 @@ namespace NeuralNetworkExample.BL.Implementation
         }
 
         /// <summary>
-        /// Create Output Layer
+        /// Populate Output Layer
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="orderedOutputLayerNeuronDescriptions">Ordered Output Layer Neuron Descriptions</param>
-        private static void CreateOutputLayer(INeuralNetwork neuralNetwork, string[] orderedOutputLayerNeuronDescriptions)
+        /// <param name="outputs">Outputs</param>
+        private static void PopulateOutputLayer(INeuralNetwork neuralNetwork, IList<NetworkOutput> outputs)
         {
-            neuralNetwork.OutputLayer = new OutputLayer();
-
-            for (int i = 0; i < orderedOutputLayerNeuronDescriptions.Length; i++)
+            //ToDo: Implement Automapper
+            foreach (var expectedOutput in outputs)
             {
-                neuralNetwork.OutputLayer.OutputNeurons.Add(new OutputNeuron() { Number = i + 1, Description = orderedOutputLayerNeuronDescriptions[i] });
+                neuralNetwork.OutputLayer.OutputNeurons.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description, ExpectedOutput = expectedOutput.ExpectedOutput });
             }
         }
 
@@ -185,16 +180,6 @@ namespace NeuralNetworkExample.BL.Implementation
                     outputNeuron.ActualOutput = orderedOutputs[i];
                 }
             }
-        }
-
-        /// <summary>
-        /// Sigmoid Func 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private static double SigmoidActivationFunction(double value)
-        {
-            return 1 / (1 + Math.Pow(SigmoidConst, -value));
         }
     }
 }
