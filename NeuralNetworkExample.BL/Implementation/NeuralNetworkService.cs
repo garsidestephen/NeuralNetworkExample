@@ -6,6 +6,7 @@ using NeuralNetworkExample.Entities.DTO;
 using NeuralNetworkExample.Entities.Implementation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetworkExample.BL.Implementation
 {
@@ -66,6 +67,7 @@ namespace NeuralNetworkExample.BL.Implementation
         public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction)
         {
             double[] outputs = null;
+            neuralNetwork.InitialInputs = inputs;
 
             // Push data through network
             for (int currentLayerNumber = 0; currentLayerNumber < neuralNetwork.ProcessingLayers.Count; currentLayerNumber++)
@@ -76,6 +78,21 @@ namespace NeuralNetworkExample.BL.Implementation
             }
 
             PopulateOutputNeurons(neuralNetwork, outputs);
+        }
+
+        public void BackPropogate(INeuralNetwork neuralNetwork)
+        {
+            double[] previousLayerErrors = neuralNetwork.OutputLayer.OutputNeurons.Select(x => x.Error).ToArray();
+
+            for (int i = neuralNetwork.ProcessingLayers.Count; i > 0; i--)
+            {
+                ProcessingLayer currentProcessingLayer = neuralNetwork.ProcessingLayers[i];
+
+                for(int j = 0; j < currentProcessingLayer.Weights.Length; j++)
+                {
+                    // Consider adding a property to p[rocessing layer to indicate how many neurons there are rather than using initial inputs.
+                }
+            }
         }
 
         /// <summary>

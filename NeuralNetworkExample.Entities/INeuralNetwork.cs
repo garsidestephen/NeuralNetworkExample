@@ -20,6 +20,11 @@ namespace NeuralNetworkExample.Entities
         string Name { get; set; }
 
         /// <summary>
+        /// Initial Inputs
+        /// </summary>
+        double[] InitialInputs { get; set; }
+
+        /// <summary>
         /// Gets or sets the activation function type
         /// </summary>
         ActivationFunctionType ActivationFunction { get; set; }

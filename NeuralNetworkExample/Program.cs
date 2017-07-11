@@ -1,9 +1,9 @@
-﻿using System;
-using NeuralNetworkExample.BL;
+﻿using NeuralNetworkExample.BL;
 using NeuralNetworkExample.BL.Implementation;
 using NeuralNetworkExample.Entities;
-using System.Collections.Generic;
 using NeuralNetworkExample.Entities.DTO;
+using System;
+using System.Collections.Generic;
 
 namespace NeuralNetworkExample
 {
@@ -28,7 +28,7 @@ namespace NeuralNetworkExample
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-
+            //WriteToConsole(ErrorCalculationFunctions.CalculateProportionateBackPropagationError(-0.566968, 0.2, new double[] { 0.3, 0.2 }).ToString());
             // ToDo: Inject via DI
             _neuralNetworkService = new NeuralNetworkService();
 

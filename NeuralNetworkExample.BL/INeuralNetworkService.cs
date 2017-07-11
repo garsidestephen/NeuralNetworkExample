@@ -31,5 +31,7 @@ namespace NeuralNetworkExample.BL
         /// <param name="inputs">Inputs</param>
         /// <param name="activationFunction">Activation Function</param>
         void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
+
+        void BackPropogate(INeuralNetwork neuralNetwork);
     }
 }
