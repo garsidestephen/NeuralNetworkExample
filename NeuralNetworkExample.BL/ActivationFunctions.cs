@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetworkExample.BL
+namespace NeuralNetworks.Logic
 {
     /// <summary>
     /// Activation Functions

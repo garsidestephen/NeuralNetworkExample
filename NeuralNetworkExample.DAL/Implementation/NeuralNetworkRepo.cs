@@ -1,7 +1,7 @@
-﻿using NeuralNetworkExample.Entities;
-using NeuralNetworkExample.Entities.Implementation;
+﻿using NeuralNetworks.Entities;
+using NeuralNetworks.Entities.Implementation;
 
-namespace NeuralNetworkExample.DAL.Implementation
+namespace NeuralNetworks.Data.Implementation
 {
     /// <summary>
     /// Neural Network Repo

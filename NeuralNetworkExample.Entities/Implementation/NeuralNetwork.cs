@@ -1,10 +1,10 @@
-﻿using NeuralNetworkExample.Entities.Implementation;
-using NeuralNetworkExample.Entities.Enums;
+﻿using NeuralNetworks.Entities.Implementation;
+using NeuralNetworks.Entities.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace NeuralNetworkExample.Entities.Implementation
+namespace NeuralNetworks.Entities.Implementation
 {
     /// <summary>
     /// Neural Network

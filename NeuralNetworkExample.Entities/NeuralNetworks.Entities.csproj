@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77B0282A-D4E2-4D21-BEE0-CC07FC1F9E17}</ProjectGuid>
+    <ProjectGuid>{8835C688-AB69-4E04-B421-A6339A4B5ECE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetworkExample.BL</RootNamespace>
-    <AssemblyName>NeuralNetworkExample.BL</AssemblyName>
+    <RootNamespace>NeuralNetworks.Entities</RootNamespace>
+    <AssemblyName>NeuralNetworks.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,23 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivationFunctions.cs" />
-    <Compile Include="ErrorCalculationFunctions.cs" />
-    <Compile Include="Helpers\ArrayExtensions.cs" />
-    <Compile Include="Helpers\ArrayHelper.cs" />
-    <Compile Include="Implementation\NeuralNetworkService.cs" />
-    <Compile Include="INeuralNetworkService.cs" />
+    <Compile Include="DTO\NetworkOutput.cs" />
+    <Compile Include="Enums\ActivationFunctionType.cs" />
+    <Compile Include="Implementation\BaseLayer.cs" />
+    <Compile Include="Implementation\Neuron.cs" />
+    <Compile Include="Implementation\ProcessingLayer.cs" />
+    <Compile Include="Implementation\NeuralNetwork.cs" />
+    <Compile Include="Implementation\OutputNeuron.cs" />
+    <Compile Include="Implementation\WorkerNeuron.cs" />
+    <Compile Include="INeuralNetwork.cs" />
+    <Compile Include="IOutputNeuron.cs" />
+    <Compile Include="INeuron.cs" />
+    <Compile Include="IWorkerNeuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NeuralNetworkExample.DAL\NeuralNetworkExample.DAL.csproj">
-      <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
-      <Name>NeuralNetworkExample.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeuralNetworkExample.Entities\NeuralNetworkExample.Entities.csproj">
-      <Project>{8835c688-ab69-4e04-b421-a6339a4b5ece}</Project>
-      <Name>NeuralNetworkExample.Entities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

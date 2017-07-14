@@ -1,4 +1,4 @@
-﻿namespace NeuralNetworkExample.Entities
+﻿namespace NeuralNetworks.Entities
 {
     /// <summary>
     /// Output Neuron Interface

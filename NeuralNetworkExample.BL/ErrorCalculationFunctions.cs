@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace NeuralNetworkExample.BL
+namespace NeuralNetworks.Logic
 {
     /// <summary>
     /// Error Calculation Functions
