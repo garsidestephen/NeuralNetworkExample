@@ -6,6 +6,7 @@ using NeuralNetworkExample.Entities.DTO;
 using NeuralNetworkExample.Entities.Implementation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetworkExample.BL.Implementation
 {
@@ -39,20 +40,28 @@ namespace NeuralNetworkExample.BL.Implementation
         }
 
         /// <summary>
-        /// Create a neural network
+        /// Create Neural Network
         /// </summary>
         /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
-        /// <param name="numberOfProcessingLayers">Number Of Processing Layers</param>
         /// <param name="networkOutputs">Network Outputs</param>
-        /// <param name="allInitialDelimitedWeights">Optional All Initial Delimited Weights</param>
-        /// <returns>A Neural Network</returns>
-        public INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, IList<NetworkOutput> networkOutputs, string allInitialDelimitedWeights = null)
+        /// <param name="initialInputWeights">Initial Input Weights</param>
+        /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
+        /// <returns></returns>
+        public INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null)
         {
             var neuralNetwork = new NeuralNetwork();
 
-            CreateProcessingLayers(neuralNetwork, numberOfInitialInputs, numberOfProcessingLayers, allInitialDelimitedWeights);
+            // Calculate how many neurons we need in the hidden layer (mean of num inputs + num outputs)
+            int numberOfNeuronsInHiddenLayer = (numberOfInitialInputs + networkOutputs.Count) / 2;
 
-            PopulateOutputLayer(neuralNetwork, networkOutputs);
+            // Create Input Layer
+            CreateProcessingLayer(neuralNetwork.InputLayer, numberOfInitialInputs, numberOfNeuronsInHiddenLayer, initialInputWeights);
+
+            // Create Hidden Layer
+            CreateProcessingLayer(neuralNetwork.HiddenLayer, numberOfNeuronsInHiddenLayer, networkOutputs.Count, initialHiddenLayerWeights);
+
+            // Create Ouput Layer
+            CreateOutputLayer(neuralNetwork, networkOutputs);
 
             return neuralNetwork;
         }
@@ -65,37 +74,50 @@ namespace NeuralNetworkExample.BL.Implementation
         /// <param name="activationFunction">Activation Function</param>
         public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction)
         {
-            double[] outputs = null;
+            neuralNetwork.InitialInputs = inputs;
 
-            // Push data through network
-            for (int currentLayerNumber = 0; currentLayerNumber < neuralNetwork.ProcessingLayers.Count; currentLayerNumber++)
+            for (int i = 0; i < inputs.Length; i++)
             {
-                outputs = CalculateNeuronOutputs(inputs, neuralNetwork.ProcessingLayers[currentLayerNumber].Weights, activationFunction);
-
-                inputs = outputs;
+                neuralNetwork.InputLayer[i].Input = inputs[i];
             }
 
-            PopulateOutputNeurons(neuralNetwork, outputs);
+            // Push data through network
+            CalculateNeuronOutputs(neuralNetwork.InputLayer, neuralNetwork.HiddenLayer, activationFunction);
+            CalculateNeuronOutputs(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer, activationFunction);
+        }
+
+        public void BackPropogate(INeuralNetwork neuralNetwork)
+        {
+            //double[] previousLayerErrors = neuralNetwork.OutputLayer.OutputNeurons.Select(x => x.Error).ToArray();
+
+            //for (int i = neuralNetwork.ProcessingLayers.Count; i > 0; i--)
+            //{
+            //    ProcessingLayer currentProcessingLayer = neuralNetwork.ProcessingLayers[i];
+
+            //    for (int j = 0; j < currentProcessingLayer.Weights.Length; j++)
+            //    {
+            //        // Consider adding a property to p[rocessing layer to indicate how many neurons there are rather than using initial inputs.
+            //    }
+            //}
         }
 
         /// <summary>
         /// Calculate Neuron Outputs
         /// </summary>
-        /// <param name="neuronInputs"></param>
-        /// <param name="weights"></param>
-        /// <param name="activationFunction"></param>
-        /// <returns>Neuron Outputs</returns>
-        private static double[] CalculateNeuronOutputs(double[] neuronInputs, double[,] weights, Func<double, double> activationFunction)
+        /// <param name="neuronsInCurrentLayer">Neurons in current Layer</param>
+        /// <param name="forwardNeurons">Neurons in Forward layer</param>
+        /// <param name="activationFunction">Activation Function</param>
+        private static void CalculateNeuronOutputs(IEnumerable<IWorkerNeuron> neuronsInCurrentLayer, IEnumerable<INeuron> forwardNeurons, Func<double, double> activationFunction)
         {
-            double[] outputs = new double[neuronInputs.Length];
+            double[] outputs = new double[forwardNeurons.Count()];
 
             // Multiply Inputs * Weights
-            for (int i = 0; i < neuronInputs.Length; i++)
+            for (int i = 0; i < neuronsInCurrentLayer.Count(); i++)
             {
-                for (int j = 0; j < neuronInputs.Length; j++)
+                for (int j = 0; j < forwardNeurons.Count(); j++)
                 {
-                    var input = neuronInputs[j];
-                    var weight = weights[i, j];
+                    var input =  neuronsInCurrentLayer.ElementAt(j).Input;
+                    var weight = neuronsInCurrentLayer.ElementAt(j).weights[i];
 
                     // 0.9  0.3  0.4   0.9      (0.9x0.9) + (0.3*0.1) + (0.4*0.8)
                     // 0.2  0.8  0.2 X 0.1  SO  (0.2x0.9) + (0.8*0.1) + (0.2*0.8)
@@ -105,48 +127,62 @@ namespace NeuralNetworkExample.BL.Implementation
                 }
             }
 
-            // Apply Activation Function to outputs
+            // Apply Activation Function to outputs and make them the inputs for next Neurons
             for (int i = 0; i < outputs.Length; i++)
             {
-                outputs[i] = activationFunction(outputs[i]);
+                forwardNeurons.ElementAt(i).Input = activationFunction(outputs[i]);
             }
-
-            return outputs;
         }
 
         /// <summary>
-        /// Create Processing Layers
+        /// Creates a Processing Layer (i.e. Input, Hidden)
         /// </summary>
-        /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
-        /// <param name="numberOfProcessingLayers">Number Of Processing Layers</param>
-        /// <param name="allInitialDelimitedWeights">All Initial Delimited Weights</param>
-        private static void CreateProcessingLayers(INeuralNetwork neuralNetwork, int numberOfInitialInputs, int numberOfProcessingLayers, string allInitialDelimitedWeights = null)
+        /// <param name="layer">The Layer</param>
+        /// <param name="numberOfNeuronsReqd">Number Of Neurons</param>
+        /// <param name="numberOfNeuronsReqdInForwardLayer">Number Of Neurons Reqd In Forward Layer</param>
+        /// <param name="weights">Weights (Optional)</param>
+        private static void CreateProcessingLayer(IList<IWorkerNeuron> layer, int numberOfNeuronsReqd, int numberOfNeuronsReqdInForwardLayer, double[] weights = null)
         {
-            double[,] allInitialWeights;
-
-            // Do we have an initial delimited weights string?
-            if (allInitialDelimitedWeights != null)
+            if (layer == null)
             {
-                // Yep, so convert it to a double 2d array
-                allInitialWeights = ArrayHelper.ConvertStringArrayTo2dDoubleArray(allInitialDelimitedWeights, numberOfInitialInputs);
+                layer = new List<IWorkerNeuron>();
             }
-            else
+            else if (layer.Count > 0)
             {
-                // Nope, lets create an array of random doubles
-                // Example 2d Weights Array "0.9,0.3,0.4, 0.2,0.8,0.2, 0.1,0.5,0.6, 0.3,0.7,0.5, 0.6,0.5,0.2, 0.8,0.1,0.9";
-                allInitialWeights = ArrayHelper.CreateRandomArray(numberOfInitialInputs, numberOfProcessingLayers);
+                // Clear any existing neurons in the input layer
+                layer.Clear();
             }
 
-            // Create layers and apportion allInitialWeights accross them
+            // Create input layer neurons
+            for (int i = 0; i < numberOfNeuronsReqd; i++)
+            {
+                layer.Add(new WorkerNeuron() { Number = i });
+            }
+
+            // Do we have any Input weights?
+            if (weights == null)
+            {
+                // Nope, so create some
+                CreateRandomWeightsArray(layer.Count, numberOfNeuronsReqdInForwardLayer);
+            }
+
+            PopulateNeuronWeights(layer, weights, numberOfNeuronsReqdInForwardLayer);
+        }
+
+        /// <summary>
+        /// Populate Neuron Weights
+        /// </summary>
+        /// <param name="neuronList">Neuron List</param>
+        /// <param name="allLayerWeights">All Layer Weights</param>
+        /// <param name="numberOfNeuronsInNextLayer">Number Of Neurons In Next Layer</param>
+        private static void PopulateNeuronWeights(IList<IWorkerNeuron> neuronList, double[] allLayerWeights, int numberOfNeuronsInNextLayer)
+        {
             int counter = 0;
 
-            for (int i = 0; i < numberOfProcessingLayers; i++)
+            for (int i = 0; i < neuronList.Count; i++)
             {
-                var layer = new ProcessingLayer() { Number = i + 1, Weights = ArrayHelper.Get2dArraySlice(allInitialWeights, counter, counter + (numberOfInitialInputs - 1)) };
-                neuralNetwork.ProcessingLayers.Add(layer);
-
-                counter += numberOfInitialInputs;
+                neuronList[i].weights = allLayerWeights.GetSlice(counter, counter + numberOfNeuronsInNextLayer);
+                counter += numberOfNeuronsInNextLayer;
             }
         }
 
@@ -155,31 +191,25 @@ namespace NeuralNetworkExample.BL.Implementation
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="outputs">Outputs</param>
-        private static void PopulateOutputLayer(INeuralNetwork neuralNetwork, IList<NetworkOutput> outputs)
+        private static void CreateOutputLayer(INeuralNetwork neuralNetwork, IList<NetworkOutput> outputs)
         {
             //ToDo: Implement Automapper
             foreach (var expectedOutput in outputs)
             {
-                neuralNetwork.OutputLayer.OutputNeurons.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description, ExpectedOutput = expectedOutput.ExpectedOutput });
+                neuralNetwork.OutputLayer.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description, ExpectedOutput = expectedOutput.ExpectedOutput });
             }
         }
 
         /// <summary>
-        /// Populate Output Neurons
+        /// 
         /// </summary>
-        /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="orderedOutputs">Ordered Outputs</param>
-        private static void PopulateOutputNeurons(INeuralNetwork neuralNetwork, double[] orderedOutputs)
+        /// <param name="neuronCount"></param>
+        /// <param name="forwardLayerNeuronCount"></param>
+        /// <returns></returns>
+        private static double[] CreateRandomWeightsArray(int neuronCount, int forwardLayerNeuronCount)
         {
-            if (neuralNetwork.OutputLayer != null && orderedOutputs.Length > 0)
-            {
-                for (int i = 0; i < neuralNetwork.OutputLayer.OutputNeurons.Count; i++)
-                {
-                    var outputNeuron = neuralNetwork.OutputLayer.OutputNeurons[i];
-
-                    outputNeuron.ActualOutput = orderedOutputs[i];
-                }
-            }
+            // ToDo: Implement
+            return new double[] { };
         }
     }
 }

@@ -14,15 +14,7 @@ namespace NeuralNetworkExample.BL
         /// <returns>Neural Network</returns>
         INeuralNetwork Get(int id);
 
-        /// <summary>
-        /// Create a neural network
-        /// </summary>
-        /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
-        /// <param name="numberOfProcessingLayers">Number Of Processing Layers</param>
-        /// <param name="networkOutputs">Network Outputs</param>
-        /// <param name="allInitialDelimitedWeights">Optional All Initial Delimited Weights</param>
-        /// <returns>A Neural Network</returns>
-        INeuralNetwork Create(int numberOfInitialInputs, int numberOfProcessingLayers, IList<NetworkOutput> networkOutputs, string allInitialDelimitedWeights = null);
+        INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null);
 
         /// <summary>
         /// Process a Neural Network
@@ -31,5 +23,7 @@ namespace NeuralNetworkExample.BL
         /// <param name="inputs">Inputs</param>
         /// <param name="activationFunction">Activation Function</param>
         void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
+
+        void BackPropogate(INeuralNetwork neuralNetwork);
     }
 }

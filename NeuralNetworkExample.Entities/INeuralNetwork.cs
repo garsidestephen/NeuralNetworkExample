@@ -20,18 +20,28 @@ namespace NeuralNetworkExample.Entities
         string Name { get; set; }
 
         /// <summary>
+        /// Initial Inputs
+        /// </summary>
+        double[] InitialInputs { get; set; }
+
+        /// <summary>
         /// Gets or sets the activation function type
         /// </summary>
         ActivationFunctionType ActivationFunction { get; set; }
 
         /// <summary>
-        /// Gets or sets Processing Layers
+        /// Gets or sets the Input Layer
         /// </summary>
-        IList<ProcessingLayer> ProcessingLayers { get; set; }
+        IList<IWorkerNeuron> InputLayer { get; }
 
         /// <summary>
-        /// Gets or sets Output Layer
+        /// Gets or sets the Hidden Layer
         /// </summary>
-        OutputLayer OutputLayer { get; set; }
+        IList<IWorkerNeuron> HiddenLayer { get; }
+
+        /// <summary>
+        /// Gets or sets the Output Layer
+        /// </summary>
+        IList<IOutputNeuron> OutputLayer { get; }
     }
 }
