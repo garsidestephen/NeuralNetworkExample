@@ -1,8 +1,8 @@
-﻿using NeuralNetworkExample.Entities.Enums;
-using NeuralNetworkExample.Entities.Implementation;
+﻿using NeuralNetworks.Entities.Enums;
+using NeuralNetworks.Entities.Implementation;
 using System.Collections.Generic;
 
-namespace NeuralNetworkExample.Entities
+namespace NeuralNetworks.Entities
 {
     /// <summary>
     /// INeuralNetwork Interface

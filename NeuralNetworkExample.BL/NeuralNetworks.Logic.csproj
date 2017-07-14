@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77C17298-A6BA-4CC4-A00E-EAA159C035DF}</ProjectGuid>
+    <ProjectGuid>{77B0282A-D4E2-4D21-BEE0-CC07FC1F9E17}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetworkExample.DAL</RootNamespace>
-    <AssemblyName>NeuralNetworkExample.DAL</AssemblyName>
+    <RootNamespace>NeuralNetworks.Logic</RootNamespace>
+    <AssemblyName>NeuralNetworks.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,14 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\NeuralNetworkRepo.cs" />
-    <Compile Include="INeuralNetworkRepo.cs" />
+    <Compile Include="ActivationFunctions.cs" />
+    <Compile Include="ErrorCalculationFunctions.cs" />
+    <Compile Include="Helpers\ArrayExtensions.cs" />
+    <Compile Include="Helpers\ArrayHelper.cs" />
+    <Compile Include="Implementation\NeuralNetworkService.cs" />
+    <Compile Include="INeuralNetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetworkExample.Entities\NeuralNetworkExample.Entities.csproj">
+    <ProjectReference Include="..\NeuralNetworkExample.DAL\NeuralNetworks.Data.csproj">
+      <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
+      <Name>NeuralNetworks.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetworkExample.Entities\NeuralNetworks.Entities.csproj">
       <Project>{8835c688-ab69-4e04-b421-a6339a4b5ece}</Project>
-      <Name>NeuralNetworkExample.Entities</Name>
+      <Name>NeuralNetworks.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

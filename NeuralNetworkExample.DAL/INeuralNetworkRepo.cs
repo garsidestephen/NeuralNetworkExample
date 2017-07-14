@@ -1,6 +1,6 @@
-﻿using NeuralNetworkExample.Entities;
+﻿using NeuralNetworks.Entities;
 
-namespace NeuralNetworkExample.DAL
+namespace NeuralNetworks.Data
 {
     /// <summary>
     /// Neural Network Repo Interface

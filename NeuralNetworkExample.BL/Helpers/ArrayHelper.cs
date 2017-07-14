@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetworkExample.BL.Helpers
+namespace NeuralNetworks.Logic.Helpers
 {
     /// <summary>
     /// Array Helper

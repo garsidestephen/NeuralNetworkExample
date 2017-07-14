@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkExample.Entities.DTO
+namespace NeuralNetworks.Entities.DTO
 {
     public class NetworkOutput
     {

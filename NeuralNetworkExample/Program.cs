@@ -1,12 +1,12 @@
-﻿using NeuralNetworkExample.BL;
-using NeuralNetworkExample.BL.Implementation;
-using NeuralNetworkExample.Entities;
-using NeuralNetworkExample.Entities.DTO;
-using NeuralNetworkExample.Entities.Implementation;
+﻿using NeuralNetworks.Logic;
+using NeuralNetworks.Logic.Implementation;
+using NeuralNetworks.Entities;
+using NeuralNetworks.Entities.DTO;
+using NeuralNetworks.Entities.Implementation;
 using System;
 using System.Collections.Generic;
 
-namespace NeuralNetworkExample
+namespace NeuralNetworks
 {
     /// <summary>
     /// C# Neural Network Example

@@ -1,9 +1,9 @@
-﻿using NeuralNetworkExample.Entities;
-using NeuralNetworkExample.Entities.DTO;
+﻿using NeuralNetworks.Entities;
+using NeuralNetworks.Entities.DTO;
 using System;
 using System.Collections.Generic;
 
-namespace NeuralNetworkExample.BL
+namespace NeuralNetworks.Logic
 {
     public interface INeuralNetworkService
     {

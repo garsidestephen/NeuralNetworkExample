@@ -1,6 +1,6 @@
-﻿using NeuralNetworkExample.Entities.Implementation;
+﻿using NeuralNetworks.Entities.Implementation;
 
-namespace NeuralNetworkExample.Entities.Implementation
+namespace NeuralNetworks.Entities.Implementation
 {
     /// <summary>
     /// Neural Network Layer

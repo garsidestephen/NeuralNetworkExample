@@ -1,14 +1,14 @@
-﻿using NeuralNetworkExample.BL.Helpers;
-using NeuralNetworkExample.DAL;
-using NeuralNetworkExample.DAL.Implementation;
-using NeuralNetworkExample.Entities;
-using NeuralNetworkExample.Entities.DTO;
-using NeuralNetworkExample.Entities.Implementation;
+﻿using NeuralNetworks.Logic.Helpers;
+using NeuralNetworks.Data;
+using NeuralNetworks.Data.Implementation;
+using NeuralNetworks.Entities;
+using NeuralNetworks.Entities.DTO;
+using NeuralNetworks.Entities.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetworkExample.BL.Implementation
+namespace NeuralNetworks.Logic.Implementation
 {
     /// <summary>
     /// Neural Network Service
