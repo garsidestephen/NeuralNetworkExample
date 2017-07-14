@@ -2,6 +2,7 @@
 using NeuralNetworkExample.BL.Implementation;
 using NeuralNetworkExample.Entities;
 using NeuralNetworkExample.Entities.DTO;
+using NeuralNetworkExample.Entities.Implementation;
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace NeuralNetworkExample
             // ToDo: Inject via DI
             _neuralNetworkService = new NeuralNetworkService();
 
-            var neuralNetwork = _neuralNetworkService.Create(2, 2, GetNetworkOutputs(), GetInitialWeights());
+            var neuralNetwork = _neuralNetworkService.Create(2, GetNetworkOutputs(), GetInitialInputWeights(), GetInitialHiddenLayerWeights());
 
             _neuralNetworkService.Process(neuralNetwork, GetInitialInputs(), ActivationFunctions.Sigmoid);
 
@@ -49,11 +50,11 @@ namespace NeuralNetworkExample
         {
             if (neuralNetwork.OutputLayer != null)
             {
-                for (int i = 0; i < neuralNetwork.OutputLayer.OutputNeurons.Count; i++)
+                for (int i = 0; i < neuralNetwork.OutputLayer.Count; i++)
                 {
-                    var outputNeuron = neuralNetwork.OutputLayer.OutputNeurons[i];
+                    var outputNeuron = (OutputNeuron)neuralNetwork.OutputLayer[i];
 
-                    WriteToConsole(string.Format("{0} : {1} : err {2}", outputNeuron.Description, outputNeuron.ActualOutput, outputNeuron.Error));
+                    WriteToConsole(string.Format("{0} : {1} : err {2}", outputNeuron.Description, outputNeuron.Input, outputNeuron.Error));
                 }
             }
         }
@@ -84,9 +85,18 @@ namespace NeuralNetworkExample
         /// Gets Initial Weights
         /// </summary>
         /// <returns>Initial Weights</returns>
-        private static string GetInitialWeights()
+        private static double[] GetInitialInputWeights()
         {
-            return "0.7,0.5,0.2,0.3, 0.4,0.6,0.3,0.2";
+            return new double[] { 0.7,0.2,0.5,0.3 };
+        }
+
+        /// <summary>
+        /// Gets Initial Weights
+        /// </summary>
+        /// <returns>Initial Weights</returns>
+        private static double[] GetInitialHiddenLayerWeights()
+        {
+            return new double[] { 0.4,0.3,0.6,0.2 };
         }
 
         /// <summary>

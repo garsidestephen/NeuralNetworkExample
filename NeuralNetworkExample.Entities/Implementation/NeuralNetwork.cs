@@ -2,6 +2,7 @@
 using NeuralNetworkExample.Entities.Enums;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace NeuralNetworkExample.Entities.Implementation
 {
@@ -17,8 +18,9 @@ namespace NeuralNetworkExample.Entities.Implementation
         /// </summary>
         public NeuralNetwork()
         {
-            ProcessingLayers = new List<ProcessingLayer>();
-            OutputLayer = new OutputLayer();
+            InputLayer = new List<IWorkerNeuron>();
+            HiddenLayer = new List<IWorkerNeuron>();
+            OutputLayer = new List<IOutputNeuron>();
         }
 
         /// <summary>
@@ -42,24 +44,18 @@ namespace NeuralNetworkExample.Entities.Implementation
         public ActivationFunctionType ActivationFunction { get; set; }
 
         /// <summary>
-        /// Gets or sets Layers
+        /// Gets or sets the Input Layer
         /// </summary>
-        public IList<ProcessingLayer> ProcessingLayers { get; set; }
+        public IList<IWorkerNeuron> InputLayer { get; internal set; }
 
         /// <summary>
-        /// Gets or sets Output Layer
+        /// Gets or sets the Hidden Layer
         /// </summary>
-        public OutputLayer OutputLayer { get; set; }
+        public IList<IWorkerNeuron> HiddenLayer{ get; internal set; }
 
         /// <summary>
-        /// Gets
+        /// Gets or sets the Output Layer
         /// </summary>
-        public bool IsTraining 
-        {
-            get
-            {
-                return OutputLayer.OutputNeurons.Any(x => x.ExpectedOutput > 0);
-            }        
-        }
+        public IList<IOutputNeuron> OutputLayer { get; internal set; }
     }
 }
