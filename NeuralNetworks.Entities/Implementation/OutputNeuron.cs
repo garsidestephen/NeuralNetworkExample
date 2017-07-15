@@ -14,10 +14,5 @@
         /// Gets or sets the expected output
         /// </summary>
         public double ExpectedOutput { get; set; }
-
-        /// <summary>
-        /// Gets or sets the error
-        /// </summary>
-        public double Error { get; set; }
     }
 }

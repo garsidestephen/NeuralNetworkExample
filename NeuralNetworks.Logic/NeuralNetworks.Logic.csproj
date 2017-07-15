@@ -39,12 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackPropagationFunctions.cs" />
     <Compile Include="ActivationFunctions.cs" />
     <Compile Include="ErrorCalculationFunctions.cs" />
     <Compile Include="Helpers\ArrayExtensions.cs" />
     <Compile Include="Helpers\ArrayHelper.cs" />
-    <Compile Include="Implementation\NeuralNetworkService.cs" />
-    <Compile Include="INeuralNetworkService.cs" />
+    <Compile Include="Implementation\NeuralNetworkProcessingService.cs" />
+    <Compile Include="Implementation\NeuralNetworkProviderService.cs" />
+    <Compile Include="Implementation\NeuralNetworkTrainingService.cs" />
+    <Compile Include="INeuralNetworkProcessingService.cs" />
+    <Compile Include="INeuralNetworkTrainingService.cs" />
+    <Compile Include="INeuralNetworkProviderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
