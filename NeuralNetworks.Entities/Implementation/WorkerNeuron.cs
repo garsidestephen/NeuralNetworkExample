@@ -19,5 +19,10 @@
         /// Gets or sets Weights
         /// </summary>
         public double[] weights { get; set; }
+
+        /// <summary>
+        /// Gets or sets Weight Errors
+        /// </summary>
+        public double[] weightErrors { get; set; }
     }
 }

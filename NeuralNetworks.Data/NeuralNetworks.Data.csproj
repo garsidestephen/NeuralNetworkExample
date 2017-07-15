@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{63C8E328-5217-424E-87E0-6A686EF84F71}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{77C17298-A6BA-4CC4-A00E-EAA159C035DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetworks</RootNamespace>
-    <AssemblyName>NeuralNetworks</AssemblyName>
+    <RootNamespace>NeuralNetworks.Data</RootNamespace>
+    <AssemblyName>NeuralNetworks.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,18 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Implementation\NeuralNetworkRepo.cs" />
+    <Compile Include="INeuralNetworkRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NeuralNetworkExample.BL\NeuralNetworks.Logic.csproj">
-      <Project>{77b0282a-d4e2-4d21-bee0-cc07fc1f9e17}</Project>
-      <Name>NeuralNetworks.Logic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeuralNetworkExample.Entities\NeuralNetworks.Entities.csproj">
+    <ProjectReference Include="..\NeuralNetworks.Entities\NeuralNetworks.Entities.csproj">
       <Project>{8835c688-ab69-4e04-b421-a6339a4b5ece}</Project>
       <Name>NeuralNetworks.Entities</Name>
     </ProjectReference>

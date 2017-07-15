@@ -37,6 +37,8 @@ namespace NeuralNetworks
 
             _neuralNetworkService.Process(neuralNetwork, GetInitialInputs(), ActivationFunctions.Sigmoid);
 
+            _neuralNetworkService.BackPropogate(neuralNetwork);
+
             WriteNeuronOutputsToConsole(neuralNetwork);
 
             Console.ReadLine();

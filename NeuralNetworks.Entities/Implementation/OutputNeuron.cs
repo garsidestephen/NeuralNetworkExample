@@ -11,11 +11,6 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the actual output
-        /// </summary>
-        public double ActualOutput { get; set; }
-
-        /// <summary>
         /// Gets or sets the expected output
         /// </summary>
         public double ExpectedOutput { get; set; }
@@ -23,12 +18,6 @@
         /// <summary>
         /// Gets or sets the error
         /// </summary>
-        public double Error 
-        {
-            get
-            {
-                return ExpectedOutput - Input;
-            }
-        }
+        public double Error { get; set; }
     }
 }

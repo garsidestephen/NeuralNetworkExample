@@ -19,5 +19,10 @@
         /// Gets or sets Weights
         /// </summary>
         double[] weights { get; set; }
+
+        /// <summary>
+        /// Gets or sets Weight Errors
+        /// </summary>
+        double[] weightErrors { get; set; }
     }
 }

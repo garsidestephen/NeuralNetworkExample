@@ -14,7 +14,21 @@ namespace NeuralNetworks.Logic
         /// <returns>Neural Network</returns>
         INeuralNetwork Get(int id);
 
+        /// <summary>
+        /// Create Neural Network
+        /// </summary>
+        /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
+        /// <param name="networkOutputs">Network Outputs</param>
+        /// <param name="initialInputWeights">Initial Input Weights</param>
+        /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
+        /// <returns></returns>
         INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null);
+
+        /// <summary>
+        /// Back Propogate
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
+        void BackPropogate(INeuralNetwork neuralNetwork);
 
         /// <summary>
         /// Process a Neural Network
@@ -23,7 +37,5 @@ namespace NeuralNetworks.Logic
         /// <param name="inputs">Inputs</param>
         /// <param name="activationFunction">Activation Function</param>
         void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
-
-        void BackPropogate(INeuralNetwork neuralNetwork);
     }
 }

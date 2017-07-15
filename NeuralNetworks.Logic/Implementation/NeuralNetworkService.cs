@@ -84,21 +84,53 @@ namespace NeuralNetworks.Logic.Implementation
             // Push data through network
             CalculateNeuronOutputs(neuralNetwork.InputLayer, neuralNetwork.HiddenLayer, activationFunction);
             CalculateNeuronOutputs(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer, activationFunction);
+            CalculateOutputLayerError(neuralNetwork.OutputLayer);
         }
 
+        /// <summary>
+        /// Back Propogate
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
         public void BackPropogate(INeuralNetwork neuralNetwork)
         {
-            //double[] previousLayerErrors = neuralNetwork.OutputLayer.OutputNeurons.Select(x => x.Error).ToArray();
+            PrepareNetworkForBackPropagation(neuralNetwork);
 
-            //for (int i = neuralNetwork.ProcessingLayers.Count; i > 0; i--)
-            //{
-            //    ProcessingLayer currentProcessingLayer = neuralNetwork.ProcessingLayers[i];
+            BackPropogateLayer(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer);
 
-            //    for (int j = 0; j < currentProcessingLayer.Weights.Length; j++)
-            //    {
-            //        // Consider adding a property to p[rocessing layer to indicate how many neurons there are rather than using initial inputs.
-            //    }
-            //}
+
+            // Loop through each neuron in current layer
+            // get each weight that was passed into current output neuron into a double[]
+            // Calculated weighted errors
+            // write weighted errors back to each neuron
+
+            // Repeat
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentLayer"></param>
+        /// <param name="forwardLayer"></param>
+        private static void BackPropogateLayer(IEnumerable<IWorkerNeuron> currentLayer, IEnumerable<INeuron> forwardLayer)
+        {
+            int currentLayerNeuronCount = currentLayer.Count();
+
+
+            for (int i = 0; i < currentLayerNeuronCount; i++)
+            {
+                double[] targetLayerWeightsForCurrentForwardNeuron = new double[currentLayerNeuronCount];
+                var currentNeuron = currentLayer.ElementAt(i);
+
+                for (int j = 0; j < currentLayerNeuronCount; j++)
+                {
+                    targetLayerWeightsForCurrentForwardNeuron[j] = currentLayer.ElementAt(j).weights[i];
+                }
+
+                for (int j = 0; j < targetLayerWeightsForCurrentForwardNeuron.Length; j++)
+                {
+                    //currentNeuron.weightErrors[j] = targetforwardneuron.error / blah blah
+                }
+            }
         }
 
         /// <summary>
@@ -116,7 +148,7 @@ namespace NeuralNetworks.Logic.Implementation
             {
                 for (int j = 0; j < forwardNeurons.Count(); j++)
                 {
-                    var input =  neuronsInCurrentLayer.ElementAt(j).Input;
+                    var input = neuronsInCurrentLayer.ElementAt(j).Input;
                     var weight = neuronsInCurrentLayer.ElementAt(j).weights[i];
 
                     // 0.9  0.3  0.4   0.9      (0.9x0.9) + (0.3*0.1) + (0.4*0.8)
@@ -181,8 +213,33 @@ namespace NeuralNetworks.Logic.Implementation
 
             for (int i = 0; i < neuronList.Count; i++)
             {
-                neuronList[i].weights = allLayerWeights.GetSlice(counter, counter + numberOfNeuronsInNextLayer);
+                var neuron = neuronList[i];
+                neuron.weights = allLayerWeights.GetSlice(counter, counter + numberOfNeuronsInNextLayer);
+
                 counter += numberOfNeuronsInNextLayer;
+            }
+        }
+
+        /// <summary>
+        /// Prepare Network For Back Propagation
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
+        private static void PrepareNetworkForBackPropagation(INeuralNetwork neuralNetwork)
+        {
+            CreateWeightErrorArrays(neuralNetwork.InputLayer);
+            CreateWeightErrorArrays(neuralNetwork.HiddenLayer);
+        }
+
+        /// <summary>
+        /// Create Weight Error Arrays
+        /// </summary>
+        /// <param name="workerNeuronList">Worker Neuron List</param>
+        private static void CreateWeightErrorArrays(IList<IWorkerNeuron> workerNeuronList)
+        {
+            for (int i = 0; i < workerNeuronList.Count; i++)
+            {
+                var neuron = workerNeuronList[i];
+                neuron.weightErrors = new double[neuron.weights.Length];
             }
         }
 
@@ -197,6 +254,18 @@ namespace NeuralNetworks.Logic.Implementation
             foreach (var expectedOutput in outputs)
             {
                 neuralNetwork.OutputLayer.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description, ExpectedOutput = expectedOutput.ExpectedOutput });
+            }
+        }
+
+        /// <summary>
+        /// Calculate Output Layer Error
+        /// </summary>
+        /// <param name="outputNeurons">Output Neurons</param>
+        private static void CalculateOutputLayerError(IList<IOutputNeuron> outputNeurons)
+        {
+            foreach (IOutputNeuron outputNeuron in outputNeurons)
+            {
+                outputNeuron.Error = outputNeuron.ExpectedOutput - outputNeuron.Input;
             }
         }
 

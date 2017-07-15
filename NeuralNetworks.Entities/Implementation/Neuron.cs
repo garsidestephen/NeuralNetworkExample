@@ -14,5 +14,10 @@
         /// Gets or sets the Neurons input
         /// </summary>
         public double Input { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Neurons error
+        /// </summary>
+        public double Error { get; set; }
     }
 }
