@@ -1,11 +1,13 @@
 ﻿using NeuralNetworks.Entities;
 using NeuralNetworks.Entities.DTO;
-using System;
 using System.Collections.Generic;
 
 namespace NeuralNetworks.Logic
 {
-    public interface INeuralNetworkService
+    /// <summary>
+    /// Neural Network Provider Service Interface
+    /// </summary>
+    public interface INeuralNetworkProviderService
     {
         /// <summary>
         /// Get Neural Network
@@ -23,19 +25,5 @@ namespace NeuralNetworks.Logic
         /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
         /// <returns></returns>
         INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null);
-
-        /// <summary>
-        /// Back Propogate
-        /// </summary>
-        /// <param name="neuralNetwork">Neural Network</param>
-        void BackPropogate(INeuralNetwork neuralNetwork);
-
-        /// <summary>
-        /// Process a Neural Network
-        /// </summary>
-        /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="inputs">Inputs</param>
-        /// <param name="activationFunction">Activation Function</param>
-        void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
     }
 }

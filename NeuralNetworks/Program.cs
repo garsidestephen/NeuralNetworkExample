@@ -21,7 +21,17 @@ namespace NeuralNetworks
         /// <summary>
         /// Neural Network Service
         /// </summary>
-        private static INeuralNetworkService _neuralNetworkService;
+        private static INeuralNetworkProviderService _neuralNetworkService;
+
+        /// <summary>
+        /// Neural Network Processing Service
+        /// </summary>
+        private static INeuralNetworkProcessingService _neuralNetworkProcessingService;
+
+        /// <summary>
+        /// Neural Network Training Service
+        /// </summary>
+        private static INeuralNetworkTrainingService _neuralNetworkTrainingService;
 
         /// <summary>
         /// Main Prog Entry Point
@@ -29,15 +39,14 @@ namespace NeuralNetworks
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //WriteToConsole(ErrorCalculationFunctions.CalculateProportionateBackPropagationError(-0.566968, 0.2, new double[] { 0.3, 0.2 }).ToString());
             // ToDo: Inject via DI
-            _neuralNetworkService = new NeuralNetworkService();
+            _neuralNetworkService = new NeuralNetworkProviderService();
+            _neuralNetworkProcessingService = new NeuralNetworkProcessingService();
+            _neuralNetworkTrainingService = new NeuralNetworkTrainingService();
 
             var neuralNetwork = _neuralNetworkService.Create(2, GetNetworkOutputs(), GetInitialInputWeights(), GetInitialHiddenLayerWeights());
-
-            _neuralNetworkService.Process(neuralNetwork, GetInitialInputs(), ActivationFunctions.Sigmoid);
-
-            _neuralNetworkService.BackPropogate(neuralNetwork);
+            _neuralNetworkProcessingService.Process(neuralNetwork, GetInitialInputs(), ActivationFunctions.Sigmoid);
+            _neuralNetworkTrainingService.BackPropogate(neuralNetwork, BackPropagationFunctions.DistributeErrorPropotionedToWeight);
 
             WriteNeuronOutputsToConsole(neuralNetwork);
 
@@ -57,6 +66,16 @@ namespace NeuralNetworks
                     var outputNeuron = (OutputNeuron)neuralNetwork.OutputLayer[i];
 
                     WriteToConsole(string.Format("{0} : {1} : err {2}", outputNeuron.Description, outputNeuron.Input, outputNeuron.Error));
+                }
+            }
+
+            if (neuralNetwork.InputLayer != null)
+            {
+                for (int i = 0; i < neuralNetwork.InputLayer.Count; i++)
+                {
+                    var inputNeuron = (WorkerNeuron)neuralNetwork.InputLayer[i];
+
+                    WriteToConsole(string.Format("Input Neuron {0} : err {1}", i, inputNeuron.Error));
                 }
             }
         }
