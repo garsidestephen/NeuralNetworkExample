@@ -1,4 +1,10 @@
-﻿using NeuralNetworks.Logic;
+﻿// Create new branch
+// Test with more input layers (6)
+
+// Update weights
+
+
+using NeuralNetworks.Logic;
 using NeuralNetworks.Logic.Implementation;
 using NeuralNetworks.Entities;
 using NeuralNetworks.Entities.DTO;
