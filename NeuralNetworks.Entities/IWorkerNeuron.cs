@@ -13,11 +13,16 @@
         /// <summary>
         /// Gets or sets Weights
         /// </summary>
-        double[] weights { get; set; }
+        double[] Weights { get; set; }
+
+        /// <summary>
+        /// Gets or sets Weighted Outputs
+        /// </summary>
+        double[] WeightedOutputs { get; set; }
 
         /// <summary>
         /// Gets or sets Weight Errors
         /// </summary>
-        double[] weightErrors { get; set; }
+        double[] WeightErrors { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace NeuralNetworks.Logic
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="inputs">Inputs</param>
-        /// <param name="activationFunction">Activation Function</param>
-        void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction);
+        /// <param name="activationFn">Activation Function</param>
+        void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFn);
     }
 }

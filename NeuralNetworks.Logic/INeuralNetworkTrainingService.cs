@@ -9,10 +9,10 @@ namespace NeuralNetworks.Logic
     public interface INeuralNetworkTrainingService
     {
         /// <summary>
-        /// Back Propogate
+        /// Train a Neural Network
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="backPropagationErrorCalculationFunction">Back Propagation Error Calculation Function</param>
-        void BackPropogate(INeuralNetwork neuralNetwork, Func<double, double, double[], double> backPropagationErrorCalculationFunction);
+        /// <param name="trainingProfile">Training Profile</param>
+        void Train(INeuralNetwork neuralNetwork, TrainingProfile trainingProfile);
     }
 }
