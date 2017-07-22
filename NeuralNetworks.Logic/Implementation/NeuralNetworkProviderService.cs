@@ -3,6 +3,7 @@ using NeuralNetworks.Data.Implementation;
 using NeuralNetworks.Entities;
 using NeuralNetworks.Entities.DTO;
 using NeuralNetworks.Entities.Implementation;
+using System;
 using System.Collections.Generic;
 
 namespace NeuralNetworks.Logic.Implementation
@@ -41,15 +42,17 @@ namespace NeuralNetworks.Logic.Implementation
         /// </summary>
         /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
         /// <param name="networkOutputs">Network Outputs</param>
+        /// <param name="learningRate">Learning Rate</param>
         /// <param name="initialInputWeights">Initial Input Weights</param>
         /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
-        /// <returns></returns>
-        public INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null)
+        /// <returns>A New Neural Network</returns>
+        public INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double learningRate, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null)
         {
-            var neuralNetwork = new NeuralNetwork();
+            var neuralNetwork = new NeuralNetwork() { LearningRate = learningRate };
 
             // Calculate how many neurons we need in the hidden layer (mean of num inputs + num outputs)
             int numberOfNeuronsInHiddenLayer = (numberOfInitialInputs + networkOutputs.Count) / 2;
+            numberOfNeuronsInHiddenLayer = numberOfNeuronsInHiddenLayer == 1 ? 2 : numberOfNeuronsInHiddenLayer; // Never have just 1 neuron in hidden layer
 
             // Create Input Layer
             CreateProcessingLayer(neuralNetwork.InputLayer, numberOfInitialInputs, numberOfNeuronsInHiddenLayer, initialInputWeights);
@@ -111,7 +114,8 @@ namespace NeuralNetworks.Logic.Implementation
             for (int i = 0; i < neuronList.Count; i++)
             {
                 var neuron = neuronList[i];
-                neuron.weights = allLayerWeights.GetSlice(counter, counter + numberOfNeuronsInNextLayer);
+                neuron.Weights = allLayerWeights.GetSlice(counter, counter + numberOfNeuronsInNextLayer);
+                neuron.WeightedOutputs = new double[neuron.Weights.Length];
 
                 counter += numberOfNeuronsInNextLayer;
             }
@@ -127,7 +131,7 @@ namespace NeuralNetworks.Logic.Implementation
             //ToDo: Implement Automapper
             foreach (var expectedOutput in outputs)
             {
-                neuralNetwork.OutputLayer.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description, ExpectedOutput = expectedOutput.ExpectedOutput });
+                neuralNetwork.OutputLayer.Add(new OutputNeuron() { Number = expectedOutput.Number, Description = expectedOutput.Description });
             }
         }
 

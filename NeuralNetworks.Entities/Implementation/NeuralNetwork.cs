@@ -34,6 +34,11 @@ namespace NeuralNetworks.Entities.Implementation
         public string Name { get; set; }
 
         /// <summary>
+        /// Learning Rate
+        /// </summary>
+        public double LearningRate { get; set; }
+
+        /// <summary>
         /// Initial Inputs
         /// </summary>
         public double[] InitialInputs { get; set; }

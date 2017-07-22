@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace NeuralNetworks.Logic
+namespace NeuralNetworks.Logic.Functions
 {
     /// <summary>
     /// Back Propagation Functions
@@ -9,13 +9,13 @@ namespace NeuralNetworks.Logic
     public class BackPropagationFunctions
     {
         /// <summary>
-        /// Distribute Error Propotioned To Weight
+        /// Distribute Error Proportioned To Weight
         /// </summary>
         /// <param name="backPropagatedError">Back PropagatedError</param>
         /// <param name="weight">Weight whose error you want to calc</param>
         /// <param name="allInboundWeights">All Inbound Weights</param>
         /// <returns>Back Propagted error for weight</returns>
-        public static double DistributeErrorPropotionedToWeight(double backPropagatedError, double weight, double[] allInboundWeights)
+        public static double DistributeErrorProportionedToWeight(double backPropagatedError, double weight, double[] allInboundWeights)
         {
             return backPropagatedError * (weight / allInboundWeights.Sum());
         }

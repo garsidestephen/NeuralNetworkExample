@@ -28,8 +28,8 @@ namespace NeuralNetworks.Logic.Implementation
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="inputs">Inputs</param>
-        /// <param name="activationFunction">Activation Function</param>
-        public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFunction)
+        /// <param name="activationFn">Activation Function</param>
+        public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFn)
         {
             neuralNetwork.InitialInputs = inputs;
 
@@ -39,8 +39,8 @@ namespace NeuralNetworks.Logic.Implementation
             }
 
             // Push data through network
-            CalculateNeuronOutputs(neuralNetwork.InputLayer, neuralNetwork.HiddenLayer, activationFunction);
-            CalculateNeuronOutputs(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer, activationFunction);
+            CalculateNeuronOutputs(neuralNetwork.InputLayer, neuralNetwork.HiddenLayer, activationFn);
+            CalculateNeuronOutputs(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer, activationFn);
             CalculateOutputLayerError(neuralNetwork.OutputLayer);
         }
 
@@ -49,31 +49,30 @@ namespace NeuralNetworks.Logic.Implementation
         /// </summary>
         /// <param name="neuronsInCurrentLayer">Neurons in current Layer</param>
         /// <param name="forwardNeurons">Neurons in Forward layer</param>
-        /// <param name="activationFunction">Activation Function</param>
-        private static void CalculateNeuronOutputs(IEnumerable<IWorkerNeuron> neuronsInCurrentLayer, IEnumerable<INeuron> forwardNeurons, Func<double, double> activationFunction)
+        /// <param name="activationFn">Activation Function</param>
+        private static void CalculateNeuronOutputs(IEnumerable<IWorkerNeuron> neuronsInCurrentLayer, IEnumerable<INeuron> forwardNeurons, Func<double, double> activationFn)
         {
             double[] outputs = new double[forwardNeurons.Count()];
 
-            // Multiply Inputs * Weights
-            for (int i = 0; i < neuronsInCurrentLayer.Count(); i++)
+            for (int i = 0; i < forwardNeurons.Count(); i++ )
             {
-                for (int j = 0; j < forwardNeurons.Count(); j++)
+                for (int j = 0; j < neuronsInCurrentLayer.Count(); j++)
                 {
-                    var input = neuronsInCurrentLayer.ElementAt(j).Input;
-                    var weight = neuronsInCurrentLayer.ElementAt(j).weights[i];
+                    var currentNeuron = neuronsInCurrentLayer.ElementAt(j);
+                    double weight = neuronsInCurrentLayer.ElementAt(j).Weights[i];
+                    double currentNeuronInputxWeight = (currentNeuron.Input * weight);
 
-                    // 0.9  0.3  0.4   0.9      (0.9x0.9) + (0.3*0.1) + (0.4*0.8)
-                    // 0.2  0.8  0.2 X 0.1  SO  (0.2x0.9) + (0.8*0.1) + (0.2*0.8)
-                    // 0.1  0.5  0.6   0.8      (0.1x0.9) + (0.5*0.1) + (0.6*0.8)
+                    // Stash Weighted Output for Back Prop
+                    currentNeuron.WeightedOutputs[i] = currentNeuronInputxWeight;
 
-                    outputs[i] = (input * weight) + outputs[i];
+                    outputs[i] = currentNeuronInputxWeight + outputs[i]; 
                 }
             }
 
             // Apply Activation Function to outputs and make them the inputs for next Neurons
             for (int i = 0; i < outputs.Length; i++)
             {
-                forwardNeurons.ElementAt(i).Input = activationFunction(outputs[i]);
+                forwardNeurons.ElementAt(i).Input = activationFn(outputs[i]);
             }
         }
 

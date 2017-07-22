@@ -20,6 +20,11 @@ namespace NeuralNetworks.Entities
         string Name { get; set; }
 
         /// <summary>
+        /// Learning Rate
+        /// </summary>
+        double LearningRate { get; set; }
+
+        /// <summary>
         /// Initial Inputs
         /// </summary>
         double[] InitialInputs { get; set; }

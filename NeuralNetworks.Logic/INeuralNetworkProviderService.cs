@@ -21,9 +21,10 @@ namespace NeuralNetworks.Logic
         /// </summary>
         /// <param name="numberOfInitialInputs">Number Of Initial Inputs</param>
         /// <param name="networkOutputs">Network Outputs</param>
+        /// <param name="learningRate">Learning Rate</param>
         /// <param name="initialInputWeights">Initial Input Weights</param>
         /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
-        /// <returns></returns>
-        INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null);
+        /// <returns>A New Neural Network</returns>
+        INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double learningRate, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null);
     }
 }
