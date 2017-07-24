@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\TrainingData.cs" />
+    <Compile Include="DTOs\TrainingData.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Functions\BackPropagationFunctions.cs" />
     <Compile Include="Functions\ActivationFunctions.cs" />
     <Compile Include="Helpers\ArrayExtensions.cs">
