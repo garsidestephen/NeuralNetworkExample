@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\NetworkOutput.cs" />
-    <Compile Include="DTO\TrainingDataDTO.cs" />
     <Compile Include="Enums\ActivationFunctionType.cs" />
     <Compile Include="Implementation\BaseLayer.cs" />
     <Compile Include="Implementation\Neuron.cs" />

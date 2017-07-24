@@ -16,20 +16,13 @@ namespace NeuralNetworks.Logic.Implementation
     public class NeuralNetworkProcessingService : INeuralNetworkProcessingService
     {
         /// <summary>
-        /// Initializes a new instance of the NeuralNetworkProcessingService class
-        /// </summary>
-        public NeuralNetworkProcessingService()
-        {
-            // ToDo: Implement DI
-        }
-
-        /// <summary>
         /// Process a Neural Network
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="inputs">Inputs</param>
         /// <param name="activationFn">Activation Function</param>
-        public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFn)
+        /// <param name="traceActivity">Trace Activity</param>
+        public void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFn, bool traceActivity = false)
         {
             neuralNetwork.InitialInputs = inputs;
 
@@ -42,6 +35,11 @@ namespace NeuralNetworks.Logic.Implementation
             CalculateNeuronOutputs(neuralNetwork.InputLayer, neuralNetwork.HiddenLayer, activationFn);
             CalculateNeuronOutputs(neuralNetwork.HiddenLayer, neuralNetwork.OutputLayer, activationFn);
             CalculateOutputLayerError(neuralNetwork.OutputLayer);
+
+            if (traceActivity)
+            {
+                neuralNetwork.WriteCurrentStateToTraceLog();
+            }
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace NeuralNetworks.Logic.Implementation
         {
             double[] outputs = new double[forwardNeurons.Count()];
 
-            for (int i = 0; i < forwardNeurons.Count(); i++ )
+            for (int i = 0; i < forwardNeurons.Count(); i++)
             {
                 for (int j = 0; j < neuronsInCurrentLayer.Count(); j++)
                 {
@@ -65,7 +63,7 @@ namespace NeuralNetworks.Logic.Implementation
                     // Stash Weighted Output for Back Prop
                     currentNeuron.WeightedOutputs[i] = currentNeuronInputxWeight;
 
-                    outputs[i] = currentNeuronInputxWeight + outputs[i]; 
+                    outputs[i] = currentNeuronInputxWeight + outputs[i];
                 }
             }
 
