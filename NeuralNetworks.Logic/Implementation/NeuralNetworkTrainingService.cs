@@ -1,4 +1,5 @@
 ﻿using NeuralNetworks.Entities;
+using NeuralNetworks.Entities.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,26 +24,47 @@ namespace NeuralNetworks.Logic.Implementation
             _neuralNetworkProcessingService = new NeuralNetworkProcessingService();
         }
 
-
         /// <summary>
         /// Train a Neural Network
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="trainingProfile">Training Profile</param>
-        public void Train(INeuralNetwork neuralNetwork, TrainingProfile trainingProfile)
+        /// <param name="traceActivity">Trace Activity</param>
+        public void Train(INeuralNetwork neuralNetwork, TrainingProfile trainingProfile, bool traceActivity = false)
         {
-            for (int i = 0; i < neuralNetwork.OutputLayer.Count; i++)
+            if (neuralNetwork != null && trainingProfile != null && trainingProfile.Data != null)
             {
-                neuralNetwork.OutputLayer[i].ExpectedOutput = trainingProfile.ExpectedOutputs[i];
+                // Iterate through training data and perform runs
+                for (int i = 0; i < trainingProfile.Data.Count; i++)
+                {
+                    // Set expected outputs for this training run
+                    for (int j = 0; j < neuralNetwork.OutputLayer.Count; j++)
+                    {
+                        neuralNetwork.OutputLayer[j].ExpectedOutput = trainingProfile.Data[i].Outputs[j];
+                    }
+
+                    // Start training run
+                    _neuralNetworkProcessingService.Process(neuralNetwork, trainingProfile.Data[i].Inputs, trainingProfile.ActivationFn);
+
+                    // Back propagate any errors
+                    BackPropogate(neuralNetwork, trainingProfile.BackPropagationErrorCalculationFn, trainingProfile.WeightCalculationFn);
+
+                    if (traceActivity)
+                    {
+                        neuralNetwork.WriteCurrentStateToTraceLog();
+                        neuralNetwork.TraceLog.Add(string.Format("---------- End of Iteration {0} ----------", i));
+                    }
+                }
+
+                if (traceActivity)
+                {
+                    neuralNetwork.TraceLog.Add("----End of Training -----");
+                }
             }
-
-            _neuralNetworkProcessingService.Process(neuralNetwork, trainingProfile.Inputs, trainingProfile.ActivationFn);
-
-            BackPropogate(neuralNetwork, trainingProfile.BackPropagationErrorCalculationFn, trainingProfile.WeightCalculationFn);
         }
 
         /// <summary>
-        /// Back Propogate
+        /// Back Propogate Errors
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="backPropagationErrorCalculationFn">Back Propagation Error Calculation Function</param>

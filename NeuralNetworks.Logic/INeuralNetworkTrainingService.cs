@@ -13,6 +13,7 @@ namespace NeuralNetworks.Logic
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="trainingProfile">Training Profile</param>
-        void Train(INeuralNetwork neuralNetwork, TrainingProfile trainingProfile);
+        /// <param name="traceActivity">Trace Activity</param>
+        void Train(INeuralNetwork neuralNetwork, TrainingProfile trainingProfile, bool traceActivity = false);
     }
 }

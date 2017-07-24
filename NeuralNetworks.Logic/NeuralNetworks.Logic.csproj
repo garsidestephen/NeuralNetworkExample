@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\TrainingData.cs" />
     <Compile Include="Functions\BackPropagationFunctions.cs" />
     <Compile Include="Functions\ActivationFunctions.cs" />
-    <Compile Include="Functions\ErrorCalculationFunctions.cs" />
-    <Compile Include="Helpers\ArrayExtensions.cs" />
+    <Compile Include="Helpers\ArrayExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Helpers\ArrayHelper.cs" />
     <Compile Include="Implementation\NeuralNetworkProcessingService.cs" />
     <Compile Include="Implementation\NeuralNetworkProviderService.cs" />
@@ -51,7 +53,7 @@
     <Compile Include="INeuralNetworkTrainingService.cs" />
     <Compile Include="INeuralNetworkProviderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrainingProfile.cs" />
+    <Compile Include="DTOs\TrainingProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralNetworks.Data\NeuralNetworks.Data.csproj">

@@ -48,5 +48,16 @@ namespace NeuralNetworks.Entities
         /// Gets or sets the Output Layer
         /// </summary>
         IList<IOutputNeuron> OutputLayer { get; }
+
+        /// <summary>
+        /// Gets or sets the TraceLog
+        /// </summary>
+        IList<string> TraceLog { get; }
+
+        /// <summary>
+        /// Write Current State To Trace Log
+        /// </summary>
+        /// <param name="neuralNetwork"></param>
+        void WriteCurrentStateToTraceLog();
     }
 }
