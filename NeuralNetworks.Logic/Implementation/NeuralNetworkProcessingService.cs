@@ -7,6 +7,7 @@ using NeuralNetworks.Entities.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace NeuralNetworks.Logic.Implementation
 {
@@ -38,7 +39,84 @@ namespace NeuralNetworks.Logic.Implementation
 
             if (traceActivity)
             {
-                neuralNetwork.WriteCurrentStateToTraceLog();
+                WriteCurrentStateToTraceLog(neuralNetwork);
+            }
+        }
+
+        /// <summary>
+        /// Write Current State To Trace Log
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
+        public void WriteCurrentStateToTraceLog(INeuralNetwork neuralNetwork)
+        {
+            if (neuralNetwork.InputLayer != null && neuralNetwork.HiddenLayer != null && neuralNetwork.OutputLayer != null)
+            {
+                // Output the inputs
+                neuralNetwork.TraceLog.Add("Inputs:");
+                for (int i = 0; i < neuralNetwork.InputLayer.Count; i++)
+                {
+                    var inputNeuron = (WorkerNeuron)neuralNetwork.InputLayer[i];
+
+                    neuralNetwork.TraceLog.Add(string.Format("Neuron {0} | Val: {1}", i, inputNeuron.Input));
+                }
+
+                neuralNetwork.TraceLog.Add(string.Empty);
+
+                // Run > Outputs
+                neuralNetwork.TraceLog.Add("Outputs:");
+                for (int i = 0; i < neuralNetwork.OutputLayer.Count; i++)
+                {
+                    var outputNeuron = (OutputNeuron)neuralNetwork.OutputLayer[i];
+
+                    neuralNetwork.TraceLog.Add(string.Format("Neuron {0} ({1}) : {2} : err {3}", i, outputNeuron.Description, outputNeuron.Input, outputNeuron.Error));
+                }
+
+                neuralNetwork.TraceLog.Add(string.Empty);
+
+                // Write out Weight Info
+                neuralNetwork.TraceLog.Add("Input Layer Weights");
+                neuralNetwork.TraceLog.Add("Initial:");
+                WriteArrayToTraceLog(neuralNetwork, neuralNetwork.InitialInputWeights);
+                neuralNetwork.TraceLog.Add("Trained:");
+                foreach (IWorkerNeuron neuron in neuralNetwork.InputLayer)
+                {
+                    WriteArrayToTraceLog(neuralNetwork, neuron.Weights, false);
+                }
+
+                neuralNetwork.TraceLog.Add(string.Empty);
+
+                neuralNetwork.TraceLog.Add("Hidden Layer Weights");
+                neuralNetwork.TraceLog.Add("Initial:");
+                WriteArrayToTraceLog(neuralNetwork, neuralNetwork.InitialHiddenWeights);
+                neuralNetwork.TraceLog.Add("Trained:");
+                foreach (IWorkerNeuron neuron in neuralNetwork.HiddenLayer)
+                {
+                    WriteArrayToTraceLog(neuralNetwork, neuron.Weights, false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Write Array To Trace Log
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
+        /// <param name="array">Array</param>
+        /// <param name="addNewLineAtEndOfOutput">Add New Line to end of output</param>
+        private static void WriteArrayToTraceLog(INeuralNetwork neuralNetwork, double[] array, bool addNewLineAtEndOfOutput = true)
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                double d = array[i];
+                sb.AppendFormat(string.Format("{0}, ", d.ToString("F12")));
+            }
+
+            neuralNetwork.TraceLog.Add(sb.ToString());
+
+            if (addNewLineAtEndOfOutput)
+            {
+                neuralNetwork.TraceLog.Add(string.Empty);
             }
         }
 

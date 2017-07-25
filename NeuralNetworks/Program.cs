@@ -50,8 +50,11 @@ namespace NeuralNetworks
             neuralNetworkTrainingService.Train(neuralNetwork, trainingProfile, true);
 
             // Test Trained network
-            neuralNetworkProcessingService.Process(neuralNetwork, new double[1] { 1 }, ActivationFunctions.Sigmoid, true);
-            neuralNetworkProcessingService.Process(neuralNetwork, new double[1] { -1 }, ActivationFunctions.Sigmoid, true);
+            neuralNetworkProcessingService.Process(neuralNetwork, new double[1] { 1 }, ActivationFunctions.Sigmoid);
+            neuralNetwork.TraceLog.Add(string.Format("Test1 | Input: 1 | Output: {0}", neuralNetwork.OutputLayer.OrderByDescending(x => x.Input).First().Description));
+
+            neuralNetworkProcessingService.Process(neuralNetwork, new double[1] { -1 }, ActivationFunctions.Sigmoid);
+            neuralNetwork.TraceLog.Add(string.Format("Test2 | Input: -1 | Output: {0}", neuralNetwork.OutputLayer.OrderByDescending(x => x.Input).First().Description));
 
             // Output network trace to console
             WriteNetworkInfoToConsole(neuralNetwork);
@@ -84,7 +87,7 @@ namespace NeuralNetworks
 
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < 500; j++)
                 {
                     if (i == 0)
                     {

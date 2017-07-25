@@ -51,7 +51,7 @@ namespace NeuralNetworks.Logic.Implementation
 
                     if (traceActivity)
                     {
-                        neuralNetwork.WriteCurrentStateToTraceLog();
+                        _neuralNetworkProcessingService.WriteCurrentStateToTraceLog(neuralNetwork);
                         neuralNetwork.TraceLog.Add(string.Format("---------- End of Iteration {0} ----------", i));
                     }
                 }
