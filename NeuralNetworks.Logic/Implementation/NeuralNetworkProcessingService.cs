@@ -104,19 +104,22 @@ namespace NeuralNetworks.Logic.Implementation
         /// <param name="addNewLineAtEndOfOutput">Add New Line to end of output</param>
         private static void WriteArrayToTraceLog(INeuralNetwork neuralNetwork, double[] array, bool addNewLineAtEndOfOutput = true)
         {
-            var sb = new StringBuilder();
-
-            for (int i = 0; i < array.Length; i++)
+            if (array != null)
             {
-                double d = array[i];
-                sb.AppendFormat(string.Format("{0}, ", d.ToString("F12")));
-            }
+                var sb = new StringBuilder();
 
-            neuralNetwork.TraceLog.Add(sb.ToString());
+                for (int i = 0; i < array.Length; i++)
+                {
+                    double d = array[i];
+                    sb.AppendFormat(string.Format("{0}, ", d.ToString("F12")));
+                }
 
-            if (addNewLineAtEndOfOutput)
-            {
-                neuralNetwork.TraceLog.Add(string.Empty);
+                neuralNetwork.TraceLog.Add(sb.ToString());
+
+                if (addNewLineAtEndOfOutput)
+                {
+                    neuralNetwork.TraceLog.Add(string.Empty);
+                }
             }
         }
 
