@@ -95,7 +95,7 @@ namespace NeuralNetworks.Logic.Implementation
             if (weights == null)
             {
                 // Nope, so create some
-                CreateRandomWeightsArray(layer.Count, numberOfNeuronsReqdInForwardLayer);
+                weights = CreateRandomWeightsArray(layer.Count, numberOfNeuronsReqdInForwardLayer);
             }
 
             PopulateNeuronWeights(layer, weights, numberOfNeuronsReqdInForwardLayer);
@@ -136,15 +136,25 @@ namespace NeuralNetworks.Logic.Implementation
         }
 
         /// <summary>
-        /// 
+        /// Create Random Weights Array
         /// </summary>
-        /// <param name="neuronCount"></param>
-        /// <param name="forwardLayerNeuronCount"></param>
+        /// <param name="currentLayerNeuronCount">Current Layer Neuron Count</param>
+        /// <param name="forwardLayerNeuronCount">Forward Layer Neuron Count</param>
         /// <returns></returns>
-        private static double[] CreateRandomWeightsArray(int neuronCount, int forwardLayerNeuronCount)
+        private static double[] CreateRandomWeightsArray(int currentLayerNeuronCount, int forwardLayerNeuronCount)
         {
-            // ToDo: Implement
-            return new double[] { };
+            Random random = new Random();
+            double[] randomWeightsArray = new double[currentLayerNeuronCount * forwardLayerNeuronCount];
+
+            for (int i = 0; i < currentLayerNeuronCount; i++)
+            {
+                for (int j = 0; j < forwardLayerNeuronCount; j++)
+                {
+                    randomWeightsArray[((i + 1) * (j + 1))-1] = random.NextDouble() * (1 - 0.02) + 0.01;
+                }
+            }
+
+            return randomWeightsArray;
         }
     }
 }

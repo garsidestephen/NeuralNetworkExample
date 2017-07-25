@@ -28,14 +28,14 @@ namespace NeuralNetworks
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var neuralNetworkService = new NeuralNetworkProviderService();
-            var neuralNetworkTrainingService = new NeuralNetworkTrainingService();
-            var neuralNetworkProcessingService = new NeuralNetworkProcessingService();
+            INeuralNetworkProviderService neuralNetworkService = new NeuralNetworkProviderService();
+            INeuralNetworkTrainingService neuralNetworkTrainingService = new NeuralNetworkTrainingService();
+            INeuralNetworkProcessingService neuralNetworkProcessingService = new NeuralNetworkProcessingService();
 
             int numInitialInputs = _inTestMode ? 6 : 1;
 
             // Create a Neural Network
-            var neuralNetwork = neuralNetworkService.Create(numInitialInputs, GetNetworkOutputs(), 0.2, GetInitialInputLayerWeights(), GetInitialHiddenLayerWeights());
+            var neuralNetwork = neuralNetworkService.Create(1, GetNetworkOutputs(), 0.2);
 
             // Create a Training Profile to train our Network
             var trainingProfile = new TrainingProfile()
@@ -43,7 +43,7 @@ namespace NeuralNetworks
                 ActivationFn = ActivationFunctions.Sigmoid,
                 BackPropagationErrorCalculationFn = BackPropagationFunctions.DistributeErrorProportionedToWeight,
                 WeightCalculationFn = BackPropagationFunctions.RecalculateWeight,
-                Data = GetTrainingData()
+                Data = GetTrainingDataOnOff()
             };
 
             // Train network
@@ -81,7 +81,7 @@ namespace NeuralNetworks
         /// Get Training Data
         /// </summary>
         /// <returns>List of Training data</returns>
-        private static IList<TrainingData> GetTrainingData()
+        private static IList<TrainingData> GetTrainingDataOnOff()
         {
             IList<TrainingData> trainingData = new List<TrainingData>();
 
@@ -98,6 +98,26 @@ namespace NeuralNetworks
                         trainingData.Add(new TrainingData() { Inputs = new double[1] { -1 }, Outputs = new double[2] { 0.01, 0.99 } });
                     }
                 }
+            }
+
+            return trainingData;
+        }
+
+        /// <summary>
+        /// Get Training Data
+        /// </summary>
+        /// <returns>List of Training data</returns>
+        private static IList<TrainingData> GetTrainingData4Way()
+        {
+            IList<TrainingData> trainingData = new List<TrainingData>();
+
+            for (int i = 0; i < 500; i++)
+            {
+
+                trainingData.Add(new TrainingData() { Inputs = new double[1] { 1 }, Outputs = new double[4] { 0.99, 0.01, 0.01, 0.01 } });
+                trainingData.Add(new TrainingData() { Inputs = new double[1] { 0.5 }, Outputs = new double[4] { 0.01, 0.99, 0.01, 0.01 } });
+                trainingData.Add(new TrainingData() { Inputs = new double[1] { -0.5 }, Outputs = new double[4] { 0.01, 0.01, 0.99, 0.01 } });
+                trainingData.Add(new TrainingData() { Inputs = new double[1] { -1 }, Outputs = new double[4] { 0.01, 0.01, 0.01, 0.99 } });
             }
 
             return trainingData;
@@ -137,12 +157,14 @@ namespace NeuralNetworks
         /// Get Network Outputs
         /// </summary>
         /// <returns>Network Output List</returns>
-        private static List<NetworkOutput> GetNetworkOutputs()
+        private static IList<NetworkOutput> GetNetworkOutputs()
         {
             var networkOutputs = new List<NetworkOutput>();
 
-            networkOutputs.Add(new NetworkOutput() { Number = 1, Description = "On" });
-            networkOutputs.Add(new NetworkOutput() { Number = 2, Description = "Off" });
+            networkOutputs.Add(new NetworkOutput() { Number = 1, Description = "On1" });
+            networkOutputs.Add(new NetworkOutput() { Number = 2, Description = "On2" });
+            //networkOutputs.Add(new NetworkOutput() { Number = 3, Description = "On3" });
+            //networkOutputs.Add(new NetworkOutput() { Number = 4, Description = "On4" });
 
             return networkOutputs;
         }
