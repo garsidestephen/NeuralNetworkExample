@@ -16,5 +16,11 @@ namespace NeuralNetworks.Logic
         /// <param name="activationFn">Activation Function</param>
         /// <param name="traceActivity">Trace Activity</param>
         void Process(INeuralNetwork neuralNetwork, double[] inputs, Func<double, double> activationFn, bool traceActivity = false);
+
+        /// <summary>
+        /// Write Current State To Trace Log
+        /// </summary>
+        /// <param name="neuralNetwork">Neural Network</param>
+        void WriteCurrentStateToTraceLog(INeuralNetwork neuralNetwork);
     }
 }

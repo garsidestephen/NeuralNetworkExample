@@ -48,7 +48,7 @@ namespace NeuralNetworks.Logic.Implementation
         /// <returns>A New Neural Network</returns>
         public INeuralNetwork Create(int numberOfInitialInputs, IList<NetworkOutput> networkOutputs, double learningRate, double[] initialInputWeights = null, double[] initialHiddenLayerWeights = null)
         {
-            var neuralNetwork = new NeuralNetwork() { LearningRate = learningRate };
+            var neuralNetwork = new NeuralNetwork() { LearningRate = learningRate, InitialInputWeights = initialInputWeights, InitialHiddenWeights = initialHiddenLayerWeights };
 
             // Calculate how many neurons we need in the hidden layer (mean of num inputs + num outputs)
             int numberOfNeuronsInHiddenLayer = (numberOfInitialInputs + networkOutputs.Count) / 2;

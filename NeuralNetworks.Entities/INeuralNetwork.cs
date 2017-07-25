@@ -20,14 +20,24 @@ namespace NeuralNetworks.Entities
         string Name { get; set; }
 
         /// <summary>
-        /// Learning Rate
+        /// Gets or sets Learning Rate
         /// </summary>
         double LearningRate { get; set; }
 
         /// <summary>
-        /// Initial Inputs
+        /// Gets or sets Initial Inputs
         /// </summary>
         double[] InitialInputs { get; set; }
+
+        /// <summary>
+        /// Gets or sets Initial Input Weights
+        /// </summary>
+        double[] InitialInputWeights { get; set; }
+
+        /// <summary>
+        /// Gets or sets Initial Hidden Weights
+        /// </summary>
+        double[] InitialHiddenWeights { get; set; }
 
         /// <summary>
         /// Gets or sets the activation function type
@@ -53,11 +63,5 @@ namespace NeuralNetworks.Entities
         /// Gets or sets the TraceLog
         /// </summary>
         IList<string> TraceLog { get; }
-
-        /// <summary>
-        /// Write Current State To Trace Log
-        /// </summary>
-        /// <param name="neuralNetwork"></param>
-        void WriteCurrentStateToTraceLog();
     }
 }
