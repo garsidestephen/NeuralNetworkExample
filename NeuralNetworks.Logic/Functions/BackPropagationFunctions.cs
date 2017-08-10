@@ -1,4 +1,6 @@
-﻿using System;
+﻿//ToDo: Pass activation Fn into RecalculateWeight
+
+using System;
 using System.Linq;
 
 namespace NeuralNetworks.Logic.Functions
@@ -21,7 +23,7 @@ namespace NeuralNetworks.Logic.Functions
         }
 
         /// <summary>
-        /// Recalculate Weight
+        /// Recalculate Weight Using Sigmoid
         /// </summary>
         /// <param name="currentWeight">Current Weight</param>
         /// <param name="forwardNeuronError">Forward Neuron Error</param>
@@ -31,9 +33,9 @@ namespace NeuralNetworks.Logic.Functions
         /// <returns>Recalculated Weight</returns>
         public static double RecalculateWeight(double currentWeight, double forwardNeuronError, double forwardNeuronInput, double currentNeuronWeightedOutput, double learningRate)
         {
-            double forwardNeuronInputSigmoid = ActivationFunctions.Sigmoid(forwardNeuronInput);
-            double sigmoidedForwardNeuronInput = forwardNeuronInputSigmoid * (1 - forwardNeuronInputSigmoid);
-            double intialWeightDiff = -forwardNeuronError * sigmoidedForwardNeuronInput * currentNeuronWeightedOutput;
+            double forwardNeuronInputAfterActivationFn = ActivationFunctions.Sigmoid(forwardNeuronInput);
+            double ActivatedForwardNeuronInput = forwardNeuronInputAfterActivationFn * (1 - forwardNeuronInputAfterActivationFn);
+            double intialWeightDiff = -forwardNeuronError * ActivatedForwardNeuronInput * currentNeuronWeightedOutput;
             double finalWeightDiff = -(learningRate * intialWeightDiff);
 
             return currentWeight + finalWeightDiff;
