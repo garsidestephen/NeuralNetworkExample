@@ -1,6 +1,6 @@
 ﻿using NeuralNetworks.Entities;
 
-namespace NeuralNetworks.Data
+namespace NeuralNetworks.Data.Abstractions
 {
     /// <summary>
     /// Neural Network Repo Interface
@@ -12,6 +12,6 @@ namespace NeuralNetworks.Data
         /// </summary>
         /// <param name="id">Neural Network Id</param>
         /// <returns>Neural Network</returns>
-        INeuralNetwork Get(int id);
+        NeuralNetwork Get(int id);
     }
 }

@@ -1,12 +1,31 @@
 ﻿using System;
 
-namespace NeuralNetworks.Logic.Helpers
+namespace NeuralNetworks.Common
 {
     /// <summary>
-    /// Array Helper
+    /// Common Functions
     /// </summary>
-    public static class ArrayHelper
+    public class ArrayHelper
     {
+        /// <summary>
+        /// Create Random Array
+        /// </summary>
+        /// <param name="length">Length of Array</param>
+        /// <param name="seed">Seed</param>
+        /// <returns>Random Array</returns>
+        public static double[] CreateRandomArray(int length, int seed)
+        {
+            double[] randomArray = new double[length];
+            Random random = new Random(seed);
+
+            for (int i = 0; i < length; i++)
+            {
+                randomArray[i] = random.NextDouble();
+            }
+
+            return randomArray;
+        }
+
         /// <summary>
         /// Convert String Array To 2d Array (Of Doubles)
         /// </summary>

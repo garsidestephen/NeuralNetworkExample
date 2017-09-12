@@ -39,18 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\NetworkOutput.cs" />
-    <Compile Include="Enums\ActivationFunctionType.cs" />
-    <Compile Include="Implementation\BaseLayer.cs" />
-    <Compile Include="Implementation\Neuron.cs" />
-    <Compile Include="Implementation\ProcessingLayer.cs" />
-    <Compile Include="Implementation\NeuralNetwork.cs" />
-    <Compile Include="Implementation\OutputNeuron.cs" />
-    <Compile Include="Implementation\WorkerNeuron.cs" />
-    <Compile Include="INeuralNetwork.cs" />
-    <Compile Include="IOutputNeuron.cs" />
-    <Compile Include="INeuron.cs" />
-    <Compile Include="IWorkerNeuron.cs" />
+    <Compile Include="Neuron.cs" />
+    <Compile Include="NeuralNetwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
