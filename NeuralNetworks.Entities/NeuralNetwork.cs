@@ -23,11 +23,6 @@ namespace NeuralNetworks.Entities
         public IList<Neuron> OutputLayer { get; set; }
 
         /// <summary>
-        /// Gets and sets Learning Rate
-        /// </summary>
-        public double LearningRate { get; set; }
-
-        /// <summary>
         /// Gets and sets Expected Results
         /// </summary>
         public double[] ExpectedResults { get; set; }
