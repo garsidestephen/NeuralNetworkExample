@@ -39,25 +39,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\TrainingData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Functions\BackPropagationFunctions.cs" />
-    <Compile Include="Functions\ActivationFunctions.cs" />
-    <Compile Include="Helpers\ArrayExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Helpers\ArrayHelper.cs" />
-    <Compile Include="Implementation\NeuralNetworkProcessingService.cs" />
-    <Compile Include="Implementation\NeuralNetworkProviderService.cs" />
-    <Compile Include="Implementation\NeuralNetworkTrainingService.cs" />
-    <Compile Include="INeuralNetworkProcessingService.cs" />
-    <Compile Include="INeuralNetworkTrainingService.cs" />
-    <Compile Include="INeuralNetworkProviderService.cs" />
+    <Compile Include="Abstractions\INeuralNetworkFactory.cs" />
+    <Compile Include="Abstractions\INeuralNetworkProcessingService.cs" />
+    <Compile Include="ActivationFunctions\Abstractions\IActivationFunction.cs" />
+    <Compile Include="ActivationFunctions\HyperbolicTangent.cs" />
+    <Compile Include="ActivationFunctions\Softmax.cs" />
+    <Compile Include="ActivationFunctions\Sigmoid.cs" />
+    <Compile Include="NeuralNetworkFactory.cs" />
+    <Compile Include="NeuralNetworkProcessingService.cs" />
+    <Compile Include="NeuralNetworkTrainingService.cs" />
+    <Compile Include="Abstractions\INeuralNetworkTrainingService.cs" />
+    <Compile Include="NeuronFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DTOs\TrainingProfile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeuralNetworks.Common\NeuralNetworks.Common.csproj">
+      <Project>{59ca9582-5afd-4ecb-bd1f-765a8e62528e}</Project>
+      <Name>NeuralNetworks.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetworks.Data\NeuralNetworks.Data.csproj">
       <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
       <Name>NeuralNetworks.Data</Name>

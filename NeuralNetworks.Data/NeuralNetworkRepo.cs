@@ -1,7 +1,7 @@
-﻿using NeuralNetworks.Entities;
-using NeuralNetworks.Entities.Implementation;
+﻿using NeuralNetworks.Data.Abstractions;
+using NeuralNetworks.Entities;
 
-namespace NeuralNetworks.Data.Implementation
+namespace NeuralNetworks.Data
 {
     /// <summary>
     /// Neural Network Repo
@@ -13,7 +13,7 @@ namespace NeuralNetworks.Data.Implementation
         /// </summary>
         /// <param name="id">Neural Network Id</param>
         /// <returns>Neural Network</returns>
-        public INeuralNetwork Get(int id)
+        public NeuralNetwork Get(int id)
         {
             // ToDo: Implement EF
             var neuralNetwork = new NeuralNetwork();
