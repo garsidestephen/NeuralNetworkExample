@@ -14,33 +14,30 @@ namespace NeuralNetworks.Logic
         /// Create Feed Forward Neural Network
         /// </summary>
         /// <param name="numberOfInputs">Number Of Inputs</param>
-        /// <param name="expectedResults">Expected Results</param>
-        /// <param name="learningRate">Learning Rate</param>
+        /// <param name="numberOfOutputs">Number Of Outputs</param>
         /// <param name="numberOfNeuronsInHiddenLayer">Number Of Neurons In Hidden Layer</param>
         /// <param name="initialHiddenLayerWeights">Initial Hidden Layer Weights</param>
         /// <param name="initialOutputLayerWeights">Initial Output Layer Weights</param>
         /// <param name="hiddenLayerBias">Hidden Layer Bias</param>
         /// <param name="outputLayerBias">Output Layer Bias</param>
         /// <returns>Neural Network</returns>
-        public NeuralNetwork CreateFeedForwardNetwork(int numberOfInputs, double[] expectedResults, double learningRate, int numberOfNeuronsInHiddenLayer = 0, double[] initialHiddenLayerWeights = null, double[] initialOutputLayerWeights = null, double[] hiddenLayerBias = null, double[] outputLayerBias = null)
+        public NeuralNetwork Create(int numberOfInputs, int numberOfOutputs, int numberOfNeuronsInHiddenLayer = 0, double[] initialHiddenLayerWeights = null, double[] initialOutputLayerWeights = null, double[] hiddenLayerBias = null, double[] outputLayerBias = null)
         {
-            NeuralNetwork nn = new NeuralNetwork();
+            var neuralNetwork = new NeuralNetwork();
 
-            nn.Inputs = new double[numberOfInputs];
-            nn.LearningRate = learningRate;
-            nn.ExpectedResults = expectedResults;
+            neuralNetwork.Inputs = new double[numberOfInputs];
 
             // If no param provided then calculate how many neurons we need in the hidden layer (mean of num inputs + num outputs)
             if (numberOfNeuronsInHiddenLayer == 0)
             {
-                numberOfNeuronsInHiddenLayer = (numberOfInputs + expectedResults.Length) / 2;
+                numberOfNeuronsInHiddenLayer = (numberOfInputs + numberOfOutputs) / 2;
                 numberOfNeuronsInHiddenLayer = numberOfNeuronsInHiddenLayer == 1 ? 2 : numberOfNeuronsInHiddenLayer; // Never have just 1 neuron in hidden layer
             }
 
-            nn.HiddenLayer = CreateLayer(numberOfNeuronsInHiddenLayer, numberOfInputs, initialHiddenLayerWeights, hiddenLayerBias);
-            nn.OutputLayer = CreateLayer(expectedResults.Length, numberOfNeuronsInHiddenLayer, initialOutputLayerWeights, outputLayerBias);
+            neuralNetwork.HiddenLayer = CreateLayer(numberOfNeuronsInHiddenLayer, numberOfInputs, initialHiddenLayerWeights, hiddenLayerBias);
+            neuralNetwork.OutputLayer = CreateLayer(numberOfOutputs, numberOfNeuronsInHiddenLayer, initialOutputLayerWeights, outputLayerBias);
 
-            return nn;
+            return neuralNetwork;
         }
 
         /// <summary>

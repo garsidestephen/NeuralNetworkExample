@@ -16,6 +16,7 @@ namespace NeuralNetworks.Logic.Abstractions
         /// <param name="expectedResults">Expected Results</param>
         /// <param name="epochs">Number of Training Epochs</param>
         /// <param name="activationFn">Activation Function</param>
-        void Train(NeuralNetwork neuralNetwork, double[][] inputs, double[][] expectedResults, int epochs, IActivationFunction activationFn);
+        /// <param name="learningRate">Learning Rate</param>
+        void Train(NeuralNetwork neuralNetwork, double[][] inputs, double[][] expectedResults, int epochs, IActivationFunction activationFn, double learningRate);
     }
 }
