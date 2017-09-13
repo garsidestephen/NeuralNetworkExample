@@ -11,7 +11,7 @@ namespace NeuralNetworks.Logic
     /// <summary>
     /// Neural Network Training Service
     /// </summary>
-    public class NeuralNetworkTrainingServicexyz : INeuralNetworkTrainingService
+    public class NeuralNetworkTrainingService : INeuralNetworkTrainingService
     {
         /// <summary>
         /// Private Neural Network Processing Service
@@ -22,7 +22,7 @@ namespace NeuralNetworks.Logic
         /// 
         /// </summary>
         /// <param name="neuralNetworkProcessingService"></param>
-        public NeuralNetworkTrainingServicexyz(INeuralNetworkProcessingService neuralNetworkProcessingService)
+        public NeuralNetworkTrainingService(INeuralNetworkProcessingService neuralNetworkProcessingService)
         {
             _neuralNetworkProcessingService = neuralNetworkProcessingService;
         }
@@ -112,7 +112,7 @@ namespace NeuralNetworks.Logic
         }
 
         /// <summary>
-        /// Adjust Neuron Weights some more
+        /// Adjust Neuron Weights
         /// </summary>
         /// <param name="neuron">The Neuron</param>
         private static void AdjustNeuronWeights(Neuron neuron, double learningRate)
