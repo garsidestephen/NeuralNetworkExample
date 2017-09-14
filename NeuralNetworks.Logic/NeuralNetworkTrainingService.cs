@@ -55,7 +55,7 @@ namespace NeuralNetworks.Logic
                     BackPropagate(neuralNetwork, expectedResults, activationFn, learningRate);
 
                     // Populate results obj
-                    results[counter] = 
+                    results[counter] =
                         inputs.Concat(expectedResults) // Inputs and Expected Results
                         .Concat(neuralNetwork.OutputLayer.Select(x => x.Output))  // Actual Outputs
                         .Concat(new double[1] { neuralNetwork.GlobalError }).ToArray(); // Overall Global Network Error
