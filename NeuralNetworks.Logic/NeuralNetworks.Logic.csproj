@@ -61,6 +61,10 @@
       <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
       <Name>NeuralNetworks.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NeuralNetworks.DTO\NeuralNetworks.DTO.csproj">
+      <Project>{2a33e7fc-aef7-42a2-b2e8-001126c895c9}</Project>
+      <Name>NeuralNetworks.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetworks.Entities\NeuralNetworks.Entities.csproj">
       <Project>{8835c688-ab69-4e04-b421-a6339a4b5ece}</Project>
       <Name>NeuralNetworks.Entities</Name>

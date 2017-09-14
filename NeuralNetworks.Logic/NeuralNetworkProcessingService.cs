@@ -1,6 +1,7 @@
 ﻿using NeuralNetworks.Entities;
 using NeuralNetworks.Logic.Abstractions;
 using NeuralNetworks.Logic.ActivationFunctions.Abstractions;
+using System.Linq;
 
 namespace NeuralNetworks.Logic
 {
@@ -14,7 +15,9 @@ namespace NeuralNetworks.Logic
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="networkInputs">Inputs</param>
-        public void ProcessFeedForwardNeuralNetwork(NeuralNetwork neuralNetwork, double[] networkInputs, IActivationFunction activationFn)
+        /// <param name="activationFn">Activation Function</param>
+        /// <returns>Output Array</returns>
+        public double[] ProcessFeedForwardNeuralNetwork(NeuralNetwork neuralNetwork, double[] networkInputs, IActivationFunction activationFn)
         {
             double[] hiddenLayerOutputs = new double[neuralNetwork.HiddenLayer.Count];
 
@@ -33,6 +36,8 @@ namespace NeuralNetworks.Logic
                 neuron.Inputs = hiddenLayerOutputs;
                 CalculateNeuronOutput(neuron, activationFn);
             }
+
+            return neuralNetwork.OutputLayer.Select(x => x.Output).ToArray();
         }
 
         /// <summary>

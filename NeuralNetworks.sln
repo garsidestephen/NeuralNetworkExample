@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworks.Entities", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworks.Common", "NeuralNetworks.Common\NeuralNetworks.Common.csproj", "{59CA9582-5AFD-4ECB-BD1F-765A8E62528E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworks.DTO", "NeuralNetworks.DTO\NeuralNetworks.DTO.csproj", "{2A33E7FC-AEF7-42A2-B2E8-001126C895C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{59CA9582-5AFD-4ECB-BD1F-765A8E62528E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59CA9582-5AFD-4ECB-BD1F-765A8E62528E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59CA9582-5AFD-4ECB-BD1F-765A8E62528E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A33E7FC-AEF7-42A2-B2E8-001126C895C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A33E7FC-AEF7-42A2-B2E8-001126C895C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A33E7FC-AEF7-42A2-B2E8-001126C895C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A33E7FC-AEF7-42A2-B2E8-001126C895C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

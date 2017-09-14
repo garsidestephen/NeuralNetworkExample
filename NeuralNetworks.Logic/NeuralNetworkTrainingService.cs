@@ -1,4 +1,5 @@
-﻿using NeuralNetworks.Entities;
+﻿using NeuralNetworks.DTO;
+using NeuralNetworks.Entities;
 using NeuralNetworks.Logic.Abstractions;
 using NeuralNetworks.Logic.ActivationFunctions;
 using NeuralNetworks.Logic.ActivationFunctions.Abstractions;
@@ -31,25 +32,39 @@ namespace NeuralNetworks.Logic
         /// Train Neural Network (N.B Do not train for just 1 example, always randomize training data)
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
-        /// <param name="inputs">Network Inputs</param>
-        /// <param name="expectedResults">Expected Results</param>
+        /// <param name="trainingData">Training Data</param>
         /// <param name="epochs">Number of Training Epochs</param>
         /// <param name="activationFn">Activation Function</param>
         /// <param name="learningRate">Learning Rate</param>
-        public void Train(NeuralNetwork neuralNetwork, double[][] inputs, double[][] expectedResults, int epochs, IActivationFunction activationFn, double learningRate)
+        /// <returns>Results Array</returns>
+        public double[][] Train(NeuralNetwork neuralNetwork, TrainingDataDTO trainingData, int epochs, IActivationFunction activationFn, double learningRate)
         {
+            // Get / create some inital vars for results obj
+            int arrayWidth = trainingData.Inputs.GetLength(0) + trainingData.ExpectedResults.GetLength(0);
+            double[][] results = new double[epochs * trainingData.Inputs.Length][];
+            int counter = 0;
+
             for (int i = 0; i < epochs; i++)
             {
-                for (int j = 0; j < inputs.Length; j++)
+                for (int j = 0; j < trainingData.Inputs.Length; j++)
                 {
-                    double[] nnInputs = inputs[j];
-                    _neuralNetworkProcessingService.ProcessFeedForwardNeuralNetwork(neuralNetwork, nnInputs, activationFn);
+                    double[] inputs = trainingData.Inputs[j];
+                    double[] expectedResults = trainingData.ExpectedResults[j];
+                    _neuralNetworkProcessingService.ProcessFeedForwardNeuralNetwork(neuralNetwork, inputs, activationFn);
 
-                    BackPropagate(neuralNetwork, expectedResults[j], activationFn, learningRate);
+                    BackPropagate(neuralNetwork, expectedResults, activationFn, learningRate);
 
-                    Console.WriteLine("{0} xor {1} = {2}", nnInputs[0], nnInputs[1], neuralNetwork.OutputLayer[0].Output);
+                    // Populate results obj
+                    results[counter] = 
+                        inputs.Concat(expectedResults) // Inputs and Expected Results
+                        .Concat(neuralNetwork.OutputLayer.Select(x => x.Output))  // Actual Outputs
+                        .Concat(new double[1] { neuralNetwork.GlobalError }).ToArray(); // Overall Global Network Error
+
+                    counter++;
                 }
             }
+
+            return results;
         }
 
         /// <summary>
@@ -58,7 +73,7 @@ namespace NeuralNetworks.Logic
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="expectedResults">Expected Results</param>
         /// <param name="activationFn">Activation Function</param>
-        /// <param name="learningRate">Learning Rate</param>
+        /// <param name="learningRate">Learning Rate (Not yet implemented)</param>
         private static void BackPropagate(NeuralNetwork neuralNetwork, double[] expectedResults, IActivationFunction activationFn, double learningRate)
         {
             // Calculate the error of each output neuron vs target
@@ -67,13 +82,13 @@ namespace NeuralNetworks.Logic
                 neuralNetwork.OutputLayer[i].Error = activationFn.derivative(neuralNetwork.OutputLayer[i].Output) * (expectedResults[i] - neuralNetwork.OutputLayer[i].Output);
             }
 
-            // Calc the global nn error
+            // Calc the global network error
             neuralNetwork.GlobalError = neuralNetwork.OutputLayer.Sum(x => x.Error);
 
             // Re-calc Output Layer weights
             for (int i = 0; i < neuralNetwork.OutputLayer.Count; i++)
             {
-                AdjustNeuronWeights(neuralNetwork.OutputLayer[i], neuralNetwork.GlobalError, learningRate);
+                AdjustNeuronWeights(neuralNetwork.OutputLayer[i], neuralNetwork.GlobalError);
             }
 
             // Recalc Hidden Layer weights
@@ -93,7 +108,7 @@ namespace NeuralNetworks.Logic
             // then adjusts the hidden neurons' weights, based on their errors
             for (int i = 0; i < neuralNetwork.HiddenLayer.Count; i++)
             {
-                AdjustNeuronWeights(neuralNetwork.HiddenLayer[i], learningRate);
+                AdjustNeuronWeights(neuralNetwork.HiddenLayer[i]);
             }
         }
         /// <summary>
@@ -101,11 +116,11 @@ namespace NeuralNetworks.Logic
         /// </summary>
         /// <param name="neuron">The Neuron</param>
         /// <param name="error">The Error</param>
-        private static void AdjustNeuronWeights(Neuron neuron, double error, double learningRate)
+        private static void AdjustNeuronWeights(Neuron neuron, double error)
         {
             for (int i = 0; i < neuron.Weights.Length; i++)
             {
-                neuron.Weights[i] += (learningRate * error) * neuron.Inputs[i];
+                neuron.Weights[i] += error * neuron.Inputs[i];
             }
 
             neuron.Bias += error;
@@ -115,11 +130,11 @@ namespace NeuralNetworks.Logic
         /// Adjust Neuron Weights
         /// </summary>
         /// <param name="neuron">The Neuron</param>
-        private static void AdjustNeuronWeights(Neuron neuron, double learningRate)
+        private static void AdjustNeuronWeights(Neuron neuron)
         {
             for (int i = 0; i < neuron.Weights.Length; i++)
             {
-                neuron.Weights[i] += (learningRate * neuron.Error) * neuron.Inputs[i];
+                neuron.Weights[i] += neuron.Error * neuron.Inputs[i];
             }
 
             neuron.Bias += neuron.Error;

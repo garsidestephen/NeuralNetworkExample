@@ -48,6 +48,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeuralNetworks.Data\NeuralNetworks.Data.csproj">
+      <Project>{77c17298-a6ba-4cc4-a00e-eaa159c035df}</Project>
+      <Name>NeuralNetworks.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetworks.DTO\NeuralNetworks.DTO.csproj">
+      <Project>{2a33e7fc-aef7-42a2-b2e8-001126c895c9}</Project>
+      <Name>NeuralNetworks.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetworks.Logic\NeuralNetworks.Logic.csproj">
       <Project>{77b0282a-d4e2-4d21-bee0-cc07fc1f9e17}</Project>
       <Name>NeuralNetworks.Logic</Name>

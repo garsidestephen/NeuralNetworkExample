@@ -28,7 +28,7 @@ namespace NeuralNetworks.Entities
         public double[] ExpectedResults { get; set; }
 
         /// <summary>
-        /// Gets and sets Globa lError
+        /// Gets and sets Global Error
         /// </summary>
         public double GlobalError { get; set; }
     }

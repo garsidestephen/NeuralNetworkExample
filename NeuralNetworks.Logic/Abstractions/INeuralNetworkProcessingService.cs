@@ -13,6 +13,8 @@ namespace NeuralNetworks.Logic.Abstractions
         /// </summary>
         /// <param name="neuralNetwork">Neural Network</param>
         /// <param name="networkInputs">Inputs</param>
-        void ProcessFeedForwardNeuralNetwork(NeuralNetwork neuralNetwork, double[] networkInputs, IActivationFunction activationFn);
+        /// <param name="activationFn">Activation Function</param>
+        /// <returns>Output Array</returns>
+        double[] ProcessFeedForwardNeuralNetwork(NeuralNetwork neuralNetwork, double[] networkInputs, IActivationFunction activationFn);
     }
 }
