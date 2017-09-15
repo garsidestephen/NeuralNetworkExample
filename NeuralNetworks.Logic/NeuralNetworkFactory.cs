@@ -55,7 +55,7 @@ namespace NeuralNetworks.Logic
             if (weights == null)
             {
                 // Create some random weights
-                weights = ArrayHelper.CreateRandomArray(numberOfInputsFromPreviousLayer, 1000);
+                weights = ArrayHelper.CreateRandomArray(numberOfInputsFromPreviousLayer * numberOfNeurons, 1000);
             }
 
             if (bias == null)
