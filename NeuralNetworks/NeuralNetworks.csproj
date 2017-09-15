@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="GardenTrainingData.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralNetworks.Data\NeuralNetworks.Data.csproj">
